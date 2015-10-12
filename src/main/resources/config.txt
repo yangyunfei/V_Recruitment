@@ -1,0 +1,28 @@
+[正式环境]
+jdbcUrl = jdbc:mysql://172.16.5.125/real_have_shop?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user=root
+password=mysql&2015_zyp
+devMode = false
+BaseImagePath=/home/netdisk/realstoreImg/
+MobileImagePath=/home/netdisk/mobileImg/
+
+
+[本地环境]
+//jdbcUrl = jdbc:mysql://10.10.4.20/real_have_shop?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+//user=root
+//password=root123
+//devMode = false
+BaseImagePath=/home/netdisk/realstoreImg/
+MobileImagePath=/home/netdisk/mobileImg/
+
+
+[redis服务器]
+redis_server=172.16.5.125
+redis_cachename=redisCache
+redis_master=mymaster
+
+[redis服务器-10.10.5.30]
+redis_host=10.10.5.30
+redis_port=6379
+redis_pass=123
+redis_singleName=redisSingle
