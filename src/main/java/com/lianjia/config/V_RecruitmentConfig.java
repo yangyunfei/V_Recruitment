@@ -1,5 +1,6 @@
 package com.lianjia.config;
 
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -12,7 +13,14 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.lianjia.index.IndexController;
+import com.lianjia.model.Agent;
+import com.lianjia.model.Employee;
+import com.lianjia.model.Remark;
 import com.lianjia.model.User;
+
+
+
+
 
 
 
@@ -54,6 +62,9 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		me.add(arp);
 		
 		arp.addMapping("user", User.class);
+		arp.addMapping("agent", "pager",Agent.class);
+		arp.addMapping("employee", Employee.class);
+		arp.addMapping("remark", Remark.class);
 		
 	}
 
