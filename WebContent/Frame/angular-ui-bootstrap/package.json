@@ -1,0 +1,59 @@
+{
+  "name": "angular-ui-bootstrap",
+  "version": "0.14.2",
+  "description": "Bootstrap widgets for Angular",
+  "main": "index.js",
+  "homepage": "http://angular-ui.github.io/bootstrap/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-ui/bootstrap.git"
+  },
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "angular-ui",
+    "components",
+    "client-side"
+  ],
+  "author": {
+    "name": "https://github.com/angular-ui/bootstrap/graphs/contributors"
+  },
+  "peerDependencies": {
+    "angular": "^1.3.x || >= 1.4.0-beta.0 || >= 1.5.0-beta.0"
+  },
+  "license": "MIT",
+  "gitHead": "21055348e8fb0f210224e70aab81e70d3f358ba6",
+  "bugs": {
+    "url": "https://github.com/angular-ui/bootstrap/issues"
+  },
+  "_id": "angular-ui-bootstrap@0.14.2",
+  "scripts": {},
+  "_shasum": "ce4b07f0e66e8400320b19b566ed29c8e42e5fdc",
+  "_from": "angular-ui-bootstrap@*",
+  "_npmVersion": "2.1.11",
+  "_nodeVersion": "0.10.33",
+  "_npmUser": {
+    "name": "wesleycho",
+    "email": "wesley.cho@gmail.com"
+  },
+  "dist": {
+    "shasum": "ce4b07f0e66e8400320b19b566ed29c8e42e5fdc",
+    "tarball": "http://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-0.14.2.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "goldcaddy77",
+      "email": "goldcaddy77@gmail.com"
+    },
+    {
+      "name": "foxandxss",
+      "email": "Foxandxss@gmail.com"
+    },
+    {
+      "name": "wesleycho",
+      "email": "wesley.cho@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-0.14.2.tgz"
+}
