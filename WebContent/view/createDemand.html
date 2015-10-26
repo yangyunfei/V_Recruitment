@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<title>需求发布</title>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../js/job.js"></script>
+
+</head>
+
+<body>
+<div class="main">
+    <!-- head start -->
+    <div class="head">
+        <header>
+            <div class="goback"><span></span>返回</div>
+            需求发布
+            <div class="iconNone">
+                &nbsp;
+            </div>
+        </header>
+    </div>
+    <!-- head end -->
+    <!-- mid start -->
+    <div class="mid">
+        <form action="" name="" method="" id="">
+        	<div class="orderul">
+                <ul>
+                    <li class="orderullih">
+                        <div class="orderullilw"><em class="red">*</em>手机号码:</div>
+                        <div class="orderullirw">
+                            <input id="phonenumber" name="phonenumber" type="text" class="contarl-input" placeholder="请输入手机号码" value=""/>
+                        </div>
+                    </li>
+                    <li class="orderullih">
+                        <div class="orderullilw"><em class="red">*</em>任店经理时间:</div>
+                        <div class="orderullirw">
+                            <input id="cardStartDate" name="time" type="text" class="contarl-input" placeholder="" value=""/>
+                        </div>
+                    </li>
+                    <li class="orderullih">
+                        <div class="orderullilw"><em class="red">*</em>所在店面:</div>
+                        <div class="orderullirw">
+                            <input id="" name="" type="text" class="contarl-input" placeholder="" value=""/>
+                        </div>
+                    </li>
+                    <li class="orderullih">
+                        <div class="orderullilw"><em class="red">*</em>店编码:</div>
+                        <div class="orderullirw">
+                            <input id="" name="" type="text" class="contarl-input" placeholder="" value=""/>
+                        </div>
+                    </li>
+                    <li class="orderulli">
+                        <div class="orderullilw nofloat">关键词:</div>
+                        <div class="d">
+                            <div class="orderullilw"><em class="red">*</em>城区:</div>
+                            <div class="orderullirw">
+                                <div class="select">
+                                    <div class="selectname J_select" value="0">请选择<span class="triangle"></span></div>
+                                    <div class="selectoption">
+                                        <i value="0">请选择</i>
+                                        <i value="1">东城</i>
+                                        <i value="2">西城</i>
+                                        <i value="3">朝阳</i>
+                                        <i value="4">海淀</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="d">
+                            <div class="orderullilw"><em class="red">*</em>楼盘/地标:</div>
+                            <div class="orderullirw">
+                                <input id="" name="" type="text" class="contarl-input" placeholder="" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="d">
+                            <div class="orderullilw">其他:</div>
+                            <div class="orderullirw">
+                                <textarea name="" class="contral-textarea"></textarea>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                    <li class="orderullih">
+                        <div class="orderullilw"><em class="red">*</em>店面地址:</div>
+                        <div class="orderullirw">
+                            <input id="" name="" type="text" class="contarl-input" placeholder="" value=""/>
+                        </div>
+                    </li>
+                    <li class="orderulli">
+                        <div class="orderullilw paddingtop"><em class="red">*</em>周边交通路线:</div>
+                        <div class="orderullirw">
+                            <textarea name="" class="contral-textarea"></textarea>
+                        </div>
+                    </li>
+                    <li class="orderulli">
+                        <div class="orderullilw paddingtop">其他:</div>
+                        <div class="orderullirw">
+                            <textarea name="" class="contral-textarea"></textarea>
+                        </div>
+                    </li>
+                </ul>
+                <div class="btn">
+                    <div class="loginbtn twobtn greenbtn"><input type="submit" value="提交" /></div>
+                    <div class="loginbtn twobtn graybtn"><input type="submit" value="草稿" /></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+    <!-- mid end -->
+    <!-- foot start -->
+    <div class="foot">
+    </div>
+    <!-- foot end -->
+</div>
+</body>
+<link href="../style/mobiscroll.custom-2.5.0.min.css" rel="stylesheet" type="text/css" />
+       <script src="../js/jquery.mobile-1.3.0.min.js" ></script>
+        <script data-main="scripts/main" src="../js/mobiscroll.js" ></script>
+         
+          <script>
+              $(function () {
+                  var newjavascript={
+     plugdatetime:function ($dateTxt,type) {
+//           var curr = new Date().getFullYear();
+           var opt = {}
+       opt.time = {preset : type};
+           opt.date = {preset : type};
+           opt.datetime = { 
+                preset : type, 
+                minDate: new Date(1900,1,01), 
+                maxDate: new Date(2100,12,31), 
+                stepMinute: 1  
+            };
+             $dateTxt.val('').scroller('destroy').scroller(
+                $.extend(opt[type], 
+                    { 
+                        preset: 'date', //日期
+                        theme: 'sense-ui', //皮肤样式
+                        display: 'modal', //显示方式 
+                        mode: 'scroller', //日期选择模式
+                        dateFormat: 'yy-mm-dd', // 日期格式
+                        setText: '确定', //确认按钮名称
+                        cancelText: '取消',//取消按钮名籍我
+                        dateOrder: 'yymmdd', //面板中日期排列格式
+                        dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+                    }
+                )
+            );
+        }
+    }
+                  newjavascript.plugdatetime($("#cardStartDate"), "datetime");
+              });
+              
+          </script>
+</html>
