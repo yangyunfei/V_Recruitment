@@ -1,0 +1,118 @@
+@CHARSET "UTF-8";
+	
+	#searchDiv{
+		width:1300px;
+	}
+	.list{
+		list-style: none;
+		font-size: 14px;
+		/* background: #E0ECFF; */
+		width: 1143px;
+		height: 270px;
+		display: block;
+		overflow-y: hidden;
+	}
+	
+	.list li+li {
+		margin-top:6px;
+	}
+	
+	.list li:hover{
+		background:#B3DFDA;
+	}
+	
+	#areaResult{
+		position:absolute;
+		color:red;
+		position: relative;
+		left: 10px;
+		top: -1px;
+	}
+	
+	.store_name{
+		font-size: 14px;
+		color: #1494FF;
+		font-weight: bold;
+		margin-left: 18px;
+		width: 398px;
+		display: block;
+		float: left;
+	}
+	
+	font{
+		font-weight:bold;
+		color:#f28d0a;
+		margin-left: 18px;
+	}
+	
+	.list .easyui-linkbutton.l-btn.l-btn-small{
+		margin-left: 18px;
+	}
+	
+	.date{
+		display: block;
+		float: left;
+		color:#666666;
+		width: 156px;
+	}
+	
+	.btn_check{
+		width:72px;
+		background:#1891F9;
+		color:white;
+		border: none;
+		height: 21px;
+		margin-left: 15px;
+	}
+	
+	#addStore{
+		background:#1891F9;
+		color:#fff;
+		position: absolute;
+		top: 4px;
+		left: 523px;
+		border:none;
+	}
+	
+	.normal{
+		margin-left: 5px;
+		cursor:pointer;
+	}
+	
+	.normal:hover{
+		color:#1494FF;
+	}
+	
+	.bold{
+		font-weight:bold;
+		color:#1494FF;
+	}
+		.label{
+		display: block;
+		float: left;
+		width: 100px;
+		height: 15px;
+		line-height: 26px;
+		color:#808080;
+	}
+	
+	#mask{
+		  width:92%;
+		  height:27px;
+		  left:7px;
+		  top:89px;
+		  position: absolute;
+		  background: #B3DFDA;
+		  filter: alpha(opacity=80);
+		  opacity: 0.80;
+		  z-index: 4;
+		  text-align: center;
+		  line-height: 27px;
+		  color: red;
+	}
+	
+	.num1,.num2,.num3{
+		display: block;
+		float: left;
+		width: 65px;
+	}

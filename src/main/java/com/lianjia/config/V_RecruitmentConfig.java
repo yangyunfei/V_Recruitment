@@ -1,6 +1,8 @@
 package com.lianjia.config;
 
 
+
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -12,11 +14,18 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
+import com.lianjia.controller.EmployeeControll;
+import com.lianjia.controller.LoginController;
+import com.lianjia.controller.RoleController;
+import com.lianjia.controller.UserController;
 import com.lianjia.index.IndexController;
 import com.lianjia.model.Agent;
 import com.lianjia.model.Employee;
+import com.lianjia.model.Module;
 import com.lianjia.model.Remark;
+import com.lianjia.model.Role;
 import com.lianjia.model.User;
+import com.lianjia.model.WechatUser;
 
 
 
@@ -60,11 +69,13 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		arp.setShowSql(true);
 		me.add(arp);
-		
 		arp.addMapping("user", User.class);
+		arp.addMapping("wechatuser", WechatUser.class);
 		arp.addMapping("agent", "pager",Agent.class);
 		arp.addMapping("employee", Employee.class);
 		arp.addMapping("remark", Remark.class);
+		arp.addMapping("module", Module.class);
+		arp.addMapping("role", Role.class);
 		
 	}
 
@@ -72,6 +83,13 @@ public class V_RecruitmentConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 		
 		me.add("/", IndexController.class);
+		me.add("/jf/loginController", LoginController.class);
+		me.add("/jf/roleController", RoleController.class);
+		me.add("/jf/userController", UserController.class);
+		me.add("/jf/empController", EmployeeControll.class);
+		
+
+		
 	}
 
 }

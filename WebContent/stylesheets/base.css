@@ -1,0 +1,44 @@
+@charset "utf-8";
+body, div, dl, dt, dd, ul, ol, li, table, thead, tbody, tfoot, tr, th, td, pre, form, fieldset, input, select, textarea, p, b, blockquote {
+	font-weight:400;
+	margin:0;
+	padding:0;
+}
+h1, h2, h3, h4, h5, h6{
+	margin:0;
+	padding:0;
+}
+h2 {
+	font-size:16px;
+}
+h3 {
+	font-size:14px;
+}
+h4 {
+	font-size:12px;
+}
+body{
+	background:url(../images/bg_denglu_bj.jpg);
+	color:#666;
+	font-family:"Simsun",Tahoma,Arial,sans-serif;
+	font-size:14px;
+	text-align:left;
+}
+ol,ul{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+a:link, a:visited {
+	color: #666;
+	text-decoration: none;
+}
+a:active, a:hover {
+	color:#CC0000;
+	text-decoration: underline; 
+}
+img{
+	border:0 none;  
+}

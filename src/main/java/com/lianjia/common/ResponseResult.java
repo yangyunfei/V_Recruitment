@@ -16,6 +16,11 @@ public class ResponseResult
 		this.msg=msg;
 		this.obj=obj;
 	}
+	
+	public ResponseResult() 
+	{
+		
+	}
 
 	public int getCode() {
 		return code;

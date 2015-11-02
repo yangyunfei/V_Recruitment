@@ -8,7 +8,17 @@ public class IndexController extends Controller
 {
 	public void index() 
 	{
-		renderText("系统返回");
+		render("/login.jsp");
+	}
+	
+	public void weixin() 
+	{
+		render("/weixin/login.jsp");
+	}
+	
+	public void weixinIndex() 
+	{
+		render("/weixin/login.jsp");
 	}
 	
 	

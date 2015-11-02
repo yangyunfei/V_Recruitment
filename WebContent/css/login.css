@@ -1,0 +1,169 @@
+body{
+	background: url(../images/zyp/bg.png) repeat-x #fff;
+	font-family: "微软雅黑";
+}
+
+/*登录*/
+.login{
+	
+}
+.login .login_con{
+	width:900px;
+	margin:0 auto;
+}
+.login .login_logo{
+	height:57px;
+	padding-top:14px;
+}
+.loginform{
+	width:370px;
+	height:372px;
+	margin:100px auto;
+	margin-bottom:0;
+	background:#fff;
+}
+.loginform h2{
+	height:59px;
+	line-height:59px;
+	background:#c4e5ea;
+	border-bottom:1px solid #b5cacf;
+	color:#117cd5;
+	font-size:26px;
+	text-align: center;
+}
+.loginform h6{
+	height:59px;
+	line-height:47px;
+	color:#fff;
+	font-size:26px;
+	text-indent: 59px;
+	margin-left:-19px;
+	margin-top:28px;
+	background:url(../images/zyp/login_bg.png) no-repeat left;
+}
+.loginform input{
+	display: block;
+	width:278px;
+	height:37px;
+	line-height:37px;
+	font-size:14px;
+	border:none;
+	text-indent: 55px;
+	border:1px solid #b9b9b9;
+	margin-left:45px;
+	margin-bottom:15px;
+	color:#666;
+}
+.loginform .logintxt{
+	background: url(../images/zyp/user_icon.png) no-repeat left #f1f8fd;
+	background-position-x: 18px;
+}
+.loginform .loginpswd{
+	background: url(../images/zyp/pswd_icon.png) no-repeat left #f1f8fd;
+	background-position-x: 15px;
+}
+.loginform .forget{
+	color:#424242;
+	float:right;
+	padding-right:47px;
+	text-decoration: underline;
+}
+.loginform .loginbtn{
+	cursor: pointer;
+	width:280px;
+	height:42px;
+	line-height:42px;
+	text-indent: 0;
+	text-align: center;
+	border:none;
+	border-radius: 1px;
+	background: url(../images/zyp/btn_bg.png) repeat-x left;
+	color:#fff;
+	font-size:14px;
+	margin-top:15px;
+}
+.forgetPassword{
+	background-position-x: 18px;
+	width:280px;
+	height:20px;
+	margin:auto;
+}
+.forgetPassword .rememberMe{
+	width: 20px;
+	height: 20px;
+}
+.forgetPassword .jzmm{
+	width: 100px;
+	height: 18px;
+	margin-bottom: inherit;
+}
+.bottom{
+	height:106px;
+	margin-top:64px;
+	padding-top:40px;
+}
+.bottom p{
+	text-align: center;
+	line-height:34px;
+	color:#424242;
+	font-size:14px;
+}
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	/*vertical-align: baseline;*/
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* add */
+body {font-size:12px;}
+img{border:0}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+select,input{vertical-align:middle}
+.clear { display:block !important; clear:both !important; float:none !important; margin:0 !important; padding:0 !important; height:0; line-height:0; font-size:0; overflow:hidden;}
+.clearfix { zoom:1; }
+.clearfix:after { content:""; display:block; clear:both; height:0; }
+.spacer{clear:both; font-size:0; height:0; line-height:0;}
+a{color:#333;text-decoration:none}
+a:hover{color:#f00;}

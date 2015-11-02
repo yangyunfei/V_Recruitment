@@ -8,6 +8,8 @@ public class EmployeeControll extends Controller
 	public void add()
 	{
 		ResponseResult result= new ResponseResult(false, "添加失败", null);
-		renderJson(result);
+//		model.addAttribute("educationLevel",educationLevel);
+//		model.addAttribute("schoolLevels",schoolLevel);
+		render("/WEB-INF/jsp/assistantMain.jsp");
 	}
 }
