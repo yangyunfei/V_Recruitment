@@ -3,28 +3,16 @@ package com.lianjia.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
-
 import java.util.Map;
 import java.util.Set;
-
-
-
-
-
-
-
 
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.lianjia.common.ResponseResult;
-import com.lianjia.model.Agent;
 import com.lianjia.model.Module;
 import com.lianjia.model.Role;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.Tree;
-import com.lianjia.server.UserVerificationServer;
 
 public class LoginController extends Controller 
 {

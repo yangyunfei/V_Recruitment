@@ -12,7 +12,7 @@ public class TableCode extends Model<TableCode> {
 	public static final TableCode dao = new TableCode();
 	
 	public List<TableCode> getList(String table,String attr) {
-		return this.find( "select code,name from table_code where tablename=? and attribute=? ", table,attr);
+		return dao.find( "select code,name from table_code where tablename=? and attribute=? ", table,attr);
 	}
 	
 	public String GetSimpleCodeName(String table,String attr,String code) {

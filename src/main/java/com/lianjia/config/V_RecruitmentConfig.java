@@ -14,16 +14,21 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
-import com.lianjia.controller.EmployeeControll;
+import com.lianjia.controller.CommonController;
 import com.lianjia.controller.LoginController;
+import com.lianjia.controller.RecordController;
+import com.lianjia.controller.RecruitController;
 import com.lianjia.controller.RoleController;
+import com.lianjia.controller.SourceController;
 import com.lianjia.controller.UserController;
+import com.lianjia.controller.weichat.PresenteeControll;
 import com.lianjia.index.IndexController;
 import com.lianjia.model.Agent;
-import com.lianjia.model.Employee;
+import com.lianjia.model.Presentee;
 import com.lianjia.model.Module;
 import com.lianjia.model.Remark;
 import com.lianjia.model.Role;
+import com.lianjia.model.TableCode;
 import com.lianjia.model.User;
 import com.lianjia.model.WechatUser;
 
@@ -72,10 +77,11 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		arp.addMapping("user", User.class);
 		arp.addMapping("wechatuser", WechatUser.class);
 		arp.addMapping("agent", "pager",Agent.class);
-		arp.addMapping("employee", Employee.class);
+		arp.addMapping("presentee", Presentee.class);
 		arp.addMapping("remark", Remark.class);
 		arp.addMapping("module", Module.class);
 		arp.addMapping("role", Role.class);
+		arp.addMapping("table_code", TableCode.class);
 		
 	}
 
@@ -86,7 +92,11 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		me.add("/jf/loginController", LoginController.class);
 		me.add("/jf/roleController", RoleController.class);
 		me.add("/jf/userController", UserController.class);
-		me.add("/jf/empController", EmployeeControll.class);
+		me.add("/jf/presenteeController", PresenteeControll.class);
+		me.add("/jf/recruitController", RecruitController.class);
+		me.add("/jf/sourceController", SourceController.class);
+		me.add("/jf/recordController", RecordController.class);
+		me.add("/jf/commonController", CommonController.class);
 		
 
 		

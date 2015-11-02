@@ -18,8 +18,10 @@
 				height : 1
 			});
 		});
+	});
 
-	/* 	panels = [ {
+	/* 	
+	panels = [ {
 			id : 'p1',
 			title : '关于',
 			height : 200,
@@ -55,7 +57,7 @@
 			height : 200,
 			collapsible : true,
 			href : '${pageContext.request.contextPath}/baseController/portal/qun'
-		} ]; */
+		} ]; 
 
 		portal = $('#portal').portal({
 			border : false,
@@ -68,13 +70,13 @@
 		});
 		var state = $.cookie('portal-state');
 		if (!state) {
-			state = 'p1,p2,p3:p4,p5,p6';/*冒号代表列，逗号代表行*/
+			state = 'p1,p2,p3:p4,p5,p6';//冒号代表列，逗号代表行
 		}
 		addPortalPanels(state);
 		portal.portal('resize');
 
 	});
-
+	
 	function getPanelOptions(id) {
 		for ( var i = 0; i < panels.length; i++) {
 			if (panels[i].id == id) {
@@ -83,6 +85,7 @@
 		}
 		return undefined;
 	}
+	
 	function getPortalState() {
 		var aa = [];
 		for ( var columnIndex = 0; columnIndex < 2; columnIndex++) {
@@ -95,6 +98,7 @@
 		}
 		return aa.join(':');
 	}
+	
 	function addPortalPanels(portalState) {
 		var columns = portalState.split(':');
 		for ( var columnIndex = 0; columnIndex < columns.length; columnIndex++) {
@@ -112,6 +116,7 @@
 			}
 		}
 	}
+	*/
 </script>
 </head>
 <body>

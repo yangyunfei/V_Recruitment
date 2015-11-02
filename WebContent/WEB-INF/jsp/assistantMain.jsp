@@ -41,7 +41,7 @@ $(function(){
 		
 		$(".iconsLeft").click(function(){
 			//window.location.href="${basePath}trunMain.do";	
-			window.location.href="${pageContext.request.contextPath}/jf/empController/add"
+			window.location.href="${pageContext.request.contextPath}/jf/presenteeController/add"
 		});
 		
 });

@@ -1,7 +1,7 @@
 package com.lianjia.server;
 
 import com.jfinal.log.Logger;
-import com.lianjia.model.Employee;
+import com.lianjia.model.Presentee;
 
 public class EmployeeServer 
 {
@@ -9,7 +9,7 @@ public class EmployeeServer
 	
 	private static Logger logger = Logger.getLogger(EmployeeServer.class);
 	
-	public boolean addEmployee(Employee ee)
+	public boolean addEmployee(Presentee ee)
 	{
 		boolean result = false;
 		try 

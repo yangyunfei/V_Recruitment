@@ -8,9 +8,9 @@
 
 
 [本地环境]
-jdbcUrl = jdbc:mysql://10.10.4.20/v_recruitment?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+jdbcUrl = jdbc:mysql://localhost/v_recruitment?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
 user=root
-password=root123
+password=
 devMode = false
 BaseImagePath=/home/netdisk/realstoreImg/
 MobileImagePath=/home/netdisk/mobileImg/

@@ -26,7 +26,7 @@
 		<div id="layout_east_calendar"></div>
 	</div>
 	<div data-options="region:'center',border:false" style="overflow: hidden;">
-		<div id="layout_east_onlinePanel" data-options="fit:true,border:false" title="真有谱">
+		<div id="layout_east_onlinePanel" data-options="fit:true,border:false" title="V招聘">
 			
 		</div>
 	</div>
