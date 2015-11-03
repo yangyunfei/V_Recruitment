@@ -41,7 +41,7 @@ $(function(){
 		
 		$(".iconsLeft").click(function(){
 			//window.location.href="${basePath}trunMain.do";	
-			window.location.href="${pageContext.request.contextPath}/jf/presenteeController/add"
+			window.location.href="${pageContext.request.contextPath}/weixin/presenteeController/toadd"
 		});
 		
 });
@@ -79,6 +79,17 @@ $(function(){
 	 height: 3px;
 	}
 	
+	.buttonCenterStyle {	
+		text-align:center;
+		line-height: 40px;
+		float:right;
+		height: 40px;
+		font-weight:bold;	
+		width:100%;
+		font-size: 15px;
+		color:#37844d;
+	}
+	
 </style>
 </head>
 
@@ -98,8 +109,18 @@ $(function(){
     <!-- mid start -->
     <div class="mid" >
     	<div >
-    		<div><div id="leftStyle" class="buttonLeftStyle" >人员发布</div><div id="rightStyle" class="buttonRightStyle" >已发布列表</div></div>
+    		<div>
+    			<div id="leftStyle" class="buttonCenterStyle">
+    				人员发布
+    			</div>
+    		</div>
     		<!-- 
+    		<div><div id="leftStyle" class="buttonLeftStyle" >人员发布</div>
+    		
+    		<div id="rightStyle" class="buttonRightStyle" >已发布列表</div>
+    		
+    		</div> 
+    		
     		<div><div id="leftStyleHr" class="buttonLeftStyle" ><hr class="hrWidth"/></div><div id="rightStyleHr" class="buttonRightStyle" ><hr  class="hrWidth"/></div></div>
     		-->
     	</div>

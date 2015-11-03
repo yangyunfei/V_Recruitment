@@ -5,9 +5,9 @@ import com.lianjia.common.ResponseResult;
 
 public class PresenteeControll extends Controller 
 {
-	public void add()
+	public void toadd()
 	{
-		ResponseResult result= new ResponseResult(false, "添加失败", null);
+		//ResponseResult result= new ResponseResult(false, "添加失败", null);
 //		model.addAttribute("educationLevel",educationLevel);
 //		model.addAttribute("schoolLevels",schoolLevel);
 		render("/WEB-INF/jsp/assistantMain.jsp");

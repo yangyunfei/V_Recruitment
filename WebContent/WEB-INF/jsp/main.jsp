@@ -28,7 +28,7 @@ $(function(){
 		
 		$("#zl").click(function(){
 			//window.location.href="assistantMain.do";
-			window.location.href="${pageContext.request.contextPath}/jf/empController/add"
+			window.location.href="${pageContext.request.contextPath}/weixin/presenteeController/toadd"
 		});
 	});
 });

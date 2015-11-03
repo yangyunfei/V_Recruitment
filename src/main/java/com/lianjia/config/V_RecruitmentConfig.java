@@ -3,6 +3,7 @@ package com.lianjia.config;
 
 
 
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -24,6 +25,7 @@ import com.lianjia.controller.UserController;
 import com.lianjia.controller.weichat.PresenteeControll;
 import com.lianjia.index.IndexController;
 import com.lianjia.model.Agent;
+import com.lianjia.model.BusinessArea;
 import com.lianjia.model.Presentee;
 import com.lianjia.model.Module;
 import com.lianjia.model.Remark;
@@ -82,6 +84,7 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		arp.addMapping("module", Module.class);
 		arp.addMapping("role", Role.class);
 		arp.addMapping("table_code", TableCode.class);
+		arp.addMapping("business_area", BusinessArea.class);
 		
 	}
 
@@ -91,12 +94,14 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		me.add("/", IndexController.class);
 		me.add("/jf/loginController", LoginController.class);
 		me.add("/jf/roleController", RoleController.class);
-		me.add("/jf/userController", UserController.class);
-		me.add("/jf/presenteeController", PresenteeControll.class);
+		me.add("/jf/userController", UserController.class);		
 		me.add("/jf/recruitController", RecruitController.class);
 		me.add("/jf/sourceController", SourceController.class);
 		me.add("/jf/recordController", RecordController.class);
 		me.add("/jf/commonController", CommonController.class);
+		
+		//微信
+		me.add("/weixin/presenteeController", PresenteeControll.class);
 		
 
 		

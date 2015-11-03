@@ -58,34 +58,34 @@
 										checkbox : true
 									},
 									{
-										field : 'store_id',
-										title : '商铺编号',
+										field : 'name',
+										title : '姓名',
 										width : 100,
 										sortable : true,
 										formatter : function(value, row, index) {
 											var str = $
 													.formatString(
-															'<a href="javascript:void(0);" onclick="view({0},\'{1}\');">{2} <\/a>',
+															'<a href="javascript:void(0);" onclick="xview({0},\'{1}\');">{2} <\/a>',
 															row.id, value,
 															value);
 											return str;
 										}
 									}, {
-										field : 'store_name',
-										title : '商铺名称',
+										field : 'phone',
+										title : '电话',
 										width : 200,
 										sortable : true
 									} ] ],
 							columns : [ [
 									{
-										field : 'source_field',
-										title : '商铺来源',
+										field : 'recordman',
+										title : '录入人系统号',
 										width : 70,
 										sortable : true
 									},
 									{
-										field : 'is_key_circle',
-										title : '是否重点商圈',
+										field : 'school_name',
+										title : '学校名称',
 										width : 80,
 										formatter : function(value, row, index) {
 											var str = value;
@@ -98,14 +98,26 @@
 										}
 									},
 									{
-										field : 'agent_name',
-										title : '经纪人',
+										field : 'degree',
+										title : '学历',
 										width : 80,
-										sortable : true
+										formatter : function(value, row, index) {
+											var str = value;
+											if (0 == value) {
+												str = "其他";
+											} else if (1 == value) {
+												str = "专科";
+											} else if (2 == value) {
+												str = "本科";
+											} else if (3 == value) {
+												str = "硕士及以上";
+											} 
+											return str;
+										}
 									},
 									{
-										field : 'agent_type',
-										title : '人员类型',
+										field : 'school_level',
+										title : '学校级别',
 										width : 80,
 										formatter : function(value, row, index) {
 											var str = value;
@@ -122,13 +134,7 @@
 											}
 											return str;
 										}
-									},
-									{
-										field : 'agent_phone',
-										title : '经纪人联系方式',
-										width : 100,
-										sortable : true
-									},
+									},									
 									{
 										field : 'createtime',
 										title : '创建时间',
@@ -136,7 +142,7 @@
 										sortable : true
 									},
 									{
-										field : 'modifytime',
+										field : 'lastUpdateTime',
 										title : '最后修改时间',
 										width : 120,
 										sortable : true
@@ -286,11 +292,11 @@
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
 		parent.$
 				.modalDialog({
-					title : '商铺查看',
-					width : 800,
-					height : 600,
+					title : '基本信息查看',
+					width : 400,
+					height : 400,
 					onOpen : null,
-					href : '${pageContext.request.contextPath}/jf/sourceController/view?id='
+					href : '${pageContext.request.contextPath}/jf/sourceController/xview?id='
 							+ id,
 					buttons : []
 				});

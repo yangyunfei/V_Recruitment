@@ -1,10 +1,12 @@
 package com.lianjia.controller;
 
 
+
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lianjia.common.DataGridUtil;
+import com.lianjia.model.Presentee;
 import com.lianjia.pageModel.DataGrid;
 
 public class SourceController  extends Controller 
@@ -48,32 +50,30 @@ public class SourceController  extends Controller
 		renderJson(dg);	
 	
 	}
+
+	
+	
 	/**
-	 * 页面添加是否重点商铺
+	 * 被推荐人基本信息查看
 	 */
-	/**
-	 * 商铺删除或恢复
-	 */
-	public  void  del()
+	public void xview()
 	{
-	  
-	   
+		int id = this.getParaToInt("id");
+		Presentee pt = Presentee.dao.findById(id);
+		if (pt == null) {
+			this.renderError(404);
+			return;
+		}
+		setAttr("pt", pt);
+		this.render("/vzp/presentee/ptXview.jsp");
+		
 	}
 	
 	/**
-	 * 商铺推广或取消
-	 */
-	public  void  spread()
-	{
-	  
-	   
-	}
-	/**
 	 * 商铺查看
 	 */
-	public void view()
-	{
-	   
+	public void view() {
 		
+
 	}
 }
