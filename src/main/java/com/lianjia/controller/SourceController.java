@@ -2,6 +2,8 @@ package com.lianjia.controller;
 
 
 
+import java.util.Map;
+
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -65,15 +67,23 @@ public class SourceController  extends Controller
 			return;
 		}
 		setAttr("pt", pt);
-		this.render("/vzp/presentee/ptXview.jsp");
+		this.render("/vzp/presentee/pstXview.jsp");
 		
 	}
 	
 	/**
 	 * 商铺查看
 	 */
-	public void view() {
-		
+	public void view() 
+	{
+		int id = this.getParaToInt("id");
+		Presentee pt = Presentee.dao.findById(id);
+		if (pt == null) {
+			this.renderError(404);
+			return;
+		}
+		setAttr("pt", pt);
+		this.render("/vzp/presentee/pstView.jsp");
 
 	}
 }

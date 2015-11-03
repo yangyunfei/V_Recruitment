@@ -34,6 +34,9 @@
 				.datagrid(
 						{
 							url : '${pageContext.request.contextPath}/jf/sourceController/dataGrid',
+							queryParams: {
+								"sec.handleman.i.eq": 0,
+							},
 							fit : true,
 							fitColumns : false,
 							border : false,
@@ -60,7 +63,7 @@
 									{
 										field : 'name',
 										title : '姓名',
-										width : 100,
+										width : 80,
 										sortable : true,
 										formatter : function(value, row, index) {
 											var str = $
@@ -72,15 +75,15 @@
 										}
 									}, {
 										field : 'phone',
-										title : '电话',
-										width : 200,
+										title : '联系方式',
+										width : 100,
 										sortable : true
 									} ] ],
 							columns : [ [
 									{
 										field : 'recordman',
 										title : '录入人系统号',
-										width : 70,
+										width : 100,
 										sortable : true
 									},
 									{
@@ -118,34 +121,44 @@
 									{
 										field : 'school_level',
 										title : '学校级别',
-										width : 80,
-										formatter : function(value, row, index) {
-											var str = value;
-											if (0 == value) {
-												str = "后台用户";
-											} else if (1 == value) {
-												str = "普通经纪人";
-											} else if (2 == value) {
-												str = "注册经纪人";
-											} else if (3 == value) {
-												str = "真有铺经纪人";
-											} else if (4 == value) {
-												str = "商铺专家";
-											}
-											return str;
-										}
+										width : 80
 									},									
 									{
 										field : 'createtime',
 										title : '创建时间',
-										width : 120,
+										width : 200,
 										sortable : true
 									},
 									{
 										field : 'lastUpdateTime',
 										title : '最后修改时间',
-										width : 120,
+										width : 200,
 										sortable : true
+									},
+									{
+										field : 'origin',
+										title : '渠道来源',
+										width : 120,
+										formatter : function(value, row, index) {
+											var str = value;
+											if (0 == value) {
+												str = "其他端口";
+											} else if (1 == value) {
+												str = "58同城";
+											} else if (2 == value) {
+												str = "赶集网";
+											} else if (3 == value) {
+												str = "前程无忧";
+											} else if (4 == value) {
+												str = "智联招聘";
+											}else if (5 == value) {
+												str = "中华英才网";
+											}else if (6 == value) {
+												str = "转介绍";
+											}
+											
+											return str;
+										}
 									},
 									{
 										field : 'action',
@@ -158,7 +171,7 @@
 														.formatString(
 																'<a href="javascript:void(0);" title="查看" onclick="view({0},\'{1}\');">查看 <\/a>',
 																row.id,
-																row.store_id);
+																row.name);
 											}
 											str += '&nbsp;';
 											if ($.canUpdate) {
@@ -302,13 +315,13 @@
 				});
 	}
 
-	function view(id, storeid) {
+	function view(id, name) {
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
 		parent
 				.addTab({
 					url : '${pageContext.request.contextPath}/jf/sourceController/view?id='
 							+ id,
-					title : '查看商铺-' + storeid,
+					title : '查看详情-' + name,
 					iconCls : 'status_online'
 				});
 	}
@@ -346,10 +359,14 @@
 			<form id="searchForm">
 				<table style="display: none;">
 					<tr>
-						<td width="80" align="right">商铺编码</td>
-						<td width="130"><input name="sec.store_id.s.eq"
-							placeholder="请输入商铺编码" /></td>
-						<td width="80" align="right">目标行政区</td>
+						<td width="80" align="right">姓名</td>
+						<td width="130"><input name="sec.name.s.eq"
+							placeholder="请输入姓名" /></td>
+						<td width="80" align="right">推荐人系统号</td>
+						<td width="130"><input name="sec.recordman.s.eq"
+							placeholder="请输入推荐人系统号" /></td>
+							<!-- 
+						<td width="80" align="right">行政区</td>
 						<td><input class="easyui-combobox" style="width: 100px"
 							name="sec.administrative_region.i.eq" id="xzq"
 							data-options="
@@ -360,7 +377,7 @@
                     
             " />
 						</td>
-						<td width="80" align="right">目标商圈</td>
+						<td width="80" align="right">商圈</td>
 						<td><input style="width: 100px" class="easyui-combobox"
 							style="width:100px" name="sec.business_area.i.in" id="sq"
 							data-options="
@@ -369,6 +386,7 @@
             multiple:true
             " />
 						</td>
+						-->
 						<!--  
 						<td width="80" align="right">是否重点商圈</td>
 						<td width="130"><select class="easyui-combobox" name="sec.iskey.s.is_key"
@@ -399,17 +417,18 @@
 						-->
 					</tr>
 					<tr>
-						<td width="80" align="right">上下水</td>
+						<td width="80" align="right">学历</td>
 						<td width="130"><select class="easyui-combobox" id="water"
-							name="sec.water.s.eq"
+							name="sec.degree.i.eq"
 							data-options="
-						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode/store-water',
+						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode/presentee-degree',
                 method: 'get',
                  panelHeight:'auto',
                 valueField: 'code',
                 textField: 'name'"
 							style="width: 100px;">
 						</select></td>
+						<!--
 						<td width="80" align="right">电量</td>
 						<td><select class="easyui-combobox" name="sec.power.s.eq"
 							id="power"
@@ -506,17 +525,26 @@
                 textField: 'name'"
 							style="width: 100px;">
 						</select></td>
-						<td width="80" align="right">录入方式</td>
+						  -->
+						<td width="80" align="right">渠道来源</td>
 						<td width="130"><select class="easyui-combobox"
-							id="submit_type" name="sec.submit_type.i.eq"
+							id="submit_type" name="sec.origin.i.eq"
 							data-options="
-						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode?tab=store&attr=submit_type',
+						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode/presentee-origin',
                 method: 'get',
                  panelHeight:'auto',
                 valueField: 'code',
                 textField: 'name'"
 							style="width: 100px;">
 						</select></td>
+						<td width="80" align="right">创建时间</td>
+						<td width="220"><input class="easyui-datebox"
+							style="width: 90px;" id="startCreateTime"
+							name="sec.createtime.dt.ge" placeholder="点击选择时间"
+							data-options="validType:'md[\'10/11/2012\']'"></input>至 <input
+							style="width: 90px;" class="easyui-datebox" id="endCreateTime"
+							name="sec.createtime.dt.le" placeholder="点击选择时间"
+							data-options="validType:'md[\'10/11/2012\']'"></td>
 					</tr>
 				</table>
 
@@ -534,7 +562,7 @@
 				<!-- 					   <select  class="easyui-combobox" id="gas" name="sec.source.s.eq" style="width:130px;">              -->
 				<!-- 	                      </select>  	 -->
 				<!-- 			:<input class="span2" name="createdatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="createdatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td> -->
-
+			<input name="sec.handleman.i.eq" type="hidden" value="0" />
 			</form>
 		</div>
 		<div data-options="region:'center',border:false">
@@ -542,6 +570,7 @@
 		</div>
 	</div>
 	<div id="toolbar" style="display: none;">
+	<!-- 
 		<c:if test="${fn:contains(modules, '/jf/storeController/add')}">
 			<a onclick="add();" href="javascript:void(0);"
 				class="easyui-linkbutton"
@@ -553,7 +582,7 @@
 				class="easyui-linkbutton"
 				data-options="plain:true,iconCls:'cog_add'">导出商铺</a>
 		</c:if>
-
+     -->
 		<a href="javascript:void(0);" class="easyui-linkbutton"
 			data-options="iconCls:'brick_add',plain:true" onclick="searchFun();">查&nbsp;&nbsp;询</a><a
 			href="javascript:void(0);" class="easyui-linkbutton"
