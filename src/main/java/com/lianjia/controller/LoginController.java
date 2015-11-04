@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.lianjia.common.ResponseResult;
+import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Module;
 import com.lianjia.model.Role;
 import com.lianjia.model.User;
@@ -48,7 +50,7 @@ public class LoginController extends Controller
 	/**
 	 * 页面列表左侧树的数据加载
 	 */
-	@Clear
+	@Before(AuthenticationInterceptor.class)
 	public void tree(){
 //    	Module module =new Module();
     	//Role_Module role_module = new Role_Module();

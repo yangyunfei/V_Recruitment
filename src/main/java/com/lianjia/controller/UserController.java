@@ -3,24 +3,20 @@ package com.lianjia.controller;
 import java.util.Arrays;
 import java.util.List;
 
-
-
-
-
-
-
-
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lianjia.common.DataGridUtil;
 import com.lianjia.common.ResponseResult;
+import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Role;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
 import com.lianjia.tools.ToolDateTime;
 
+@Before(AuthenticationInterceptor.class)
 public class UserController extends Controller 
 {
 	/**

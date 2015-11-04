@@ -2,33 +2,57 @@ package com.lianjia.controller;
 
 
 
-import java.util.Map;
+import java.util.Date;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.lianjia.common.Constants;
 import com.lianjia.common.DataGridUtil;
+import com.lianjia.common.ResponseResult;
+import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Presentee;
+import com.lianjia.model.Recruit;
+import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
 
+@Before(AuthenticationInterceptor.class)
 public class SourceController  extends Controller 
 {
 
-	/**
-	 * 共享资源页面跳转
-	 * (被推荐人 == 资源)
-	 */
 	public void manager()
 	{
-		render("/vzp/presentee/presentee.jsp");
+		render("/vzp/source/presentee.jsp");
 	}
-	
+
+	public void historymanager()
+	{
+		render("/vzp/source/history_presentee.jsp");
+	}
 
 	/**
 	 * 增加页面跳转
 	 */
-	public void add()
+	public void accept()
 	{
+		long pst_id = getParaToLong(0);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		Recruit recruit = new Recruit();
+		recruit.set("user_id", user.getLong("id"));
+		recruit.set("presentee_id", pst_id);
+		recruit.set("state", 1);
+		recruit.set("createtime", new Date());
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("handleman", user.getLong("id"));
+		if(recruit.save()&&pst.update())
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
 		
 	}
 	
@@ -45,7 +69,7 @@ public class SourceController  extends Controller
 	public void dataGrid()
 	{
 	
-		Page<Record> pageList = DataGridUtil.dataGrid(this, "presentee");
+		Page<Record> pageList = DataGridUtil.dataGrid(this, "v_source");
 		DataGrid dg=new DataGrid();
 		dg.setRows(pageList.getList());
 		dg.setTotal(pageList.getTotalRow());
@@ -67,7 +91,7 @@ public class SourceController  extends Controller
 			return;
 		}
 		setAttr("pt", pt);
-		this.render("/vzp/presentee/pstXview.jsp");
+		this.render("/vzp/source/pstXview.jsp");
 		
 	}
 	
@@ -83,7 +107,7 @@ public class SourceController  extends Controller
 			return;
 		}
 		setAttr("pt", pt);
-		this.render("/vzp/presentee/pstView.jsp");
+		this.render("/vzp/source/pstView.jsp");
 
 	}
 }

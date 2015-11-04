@@ -7,9 +7,9 @@
 <head>
 <title>用户管理</title>
 <jsp:include page="../../inc.jsp"></jsp:include>
-<c:if test="${fn:contains(modules, '/jf/storeController/add')}">
+<c:if test="${fn:contains(modules, '/jf/sourceController/accept')}">
 	<script type="text/javascript">
-		$.canAdd = true;
+		$.canAccept = true;
 	</script>
 </c:if>
 <c:if test="${fn:contains(modules, '/jf/storeController/update')}">
@@ -35,7 +35,8 @@
 						{
 							url : '${pageContext.request.contextPath}/jf/sourceController/dataGrid',
 							queryParams: {
-								"sec.handleman.i.eq": 0,
+								"sec.handleman.l.eq": 0,
+								"sec.weight.i.eq": 0
 							},
 							fit : true,
 							fitColumns : false,
@@ -166,7 +167,14 @@
 										width : 100,
 										formatter : function(value, row, index) {
 											var str = '';
+											if($.canAccept)
 											{
+												str += $
+														.formatString(
+																'<a href="javascript:void(0);" title="收藏" onclick="accept({0});">收藏 <\/a>',
+																row.id);
+											}
+											if ($.canUpdate){
 												str += $
 														.formatString(
 																'<a href="javascript:void(0);" title="查看" onclick="view({0},\'{1}\');">查看 <\/a>',
@@ -222,6 +230,41 @@
 			title : '增加商铺',
 			iconCls : 'status_online'
 		});
+	}
+	function accept(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您是否确定要收藏 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/sourceController/accept/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
 	}
 	function update(id, storeid) {
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
@@ -347,8 +390,8 @@
 		parent.$.messager.progress('close');
 	}
 	function cleanFun() {
-		$('#searchForm input').val('');
-		dataGrid.datagrid('load', {});
+		$('#searchTable input').val('');
+		dataGrid.datagrid('load', {"sec.handleman.l.eq": 0,"sec.weight.i.eq": 0});
 	}
 </script>
 </head>
@@ -357,7 +400,7 @@
 		<div data-options="region:'north',title:'查询条件',border:false"
 			style="height: 150px; width: 6900px;">
 			<form id="searchForm">
-				<table style="display: none;">
+				<table id="searchTable" style="display: none;">
 					<tr>
 						<td width="80" align="right">姓名</td>
 						<td width="130"><input name="sec.name.s.eq"
@@ -562,7 +605,8 @@
 				<!-- 					   <select  class="easyui-combobox" id="gas" name="sec.source.s.eq" style="width:130px;">              -->
 				<!-- 	                      </select>  	 -->
 				<!-- 			:<input class="span2" name="createdatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="createdatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td> -->
-			<input name="sec.handleman.i.eq" type="hidden" value="0" />
+			<input name="sec.handleman.l.eq" type="hidden" value="0" />
+			<input name="sec.weight.i.eq" type="hidden" value='0' />
 			</form>
 		</div>
 		<div data-options="region:'center',border:false">

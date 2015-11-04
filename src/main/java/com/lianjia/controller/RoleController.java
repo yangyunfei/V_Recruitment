@@ -4,16 +4,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lianjia.common.DataGridUtil;
 import com.lianjia.common.ResponseResult;
+import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Module;
 import com.lianjia.model.Role;
 import com.lianjia.pageModel.DataGrid;
 
-
+@Before(AuthenticationInterceptor.class)
 public class RoleController extends Controller
 {
 

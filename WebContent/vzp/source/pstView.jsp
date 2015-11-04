@@ -21,7 +21,7 @@
 <script type="text/javascript" src="<%=basePath %>js/jquery.easyui.min.js"></script>
 
 
-<title>店铺详情</title>
+<title>求职者详情</title>
 <style type="text/css">
 	
 	*{
@@ -159,6 +159,7 @@
 </style>
 </head>
 <body>
+<!-- 
 <h1>${store.store_name }</h1>
 <hr />
 
@@ -486,5 +487,6 @@
 		});
 	});
 </script>
+ -->
 </body>
 </html>

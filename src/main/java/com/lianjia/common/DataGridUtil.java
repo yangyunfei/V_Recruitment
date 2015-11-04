@@ -63,7 +63,7 @@ public class DataGridUtil {
 					}
 					if (SecType.equalsIgnoreCase("in")) {
 						sqlWhere += String.format(" and  %s in ( %s )  ",
-								field, Integer.valueOf(entry.getValue()[0]));
+								field, String.valueOf(entry.getValue()[0]));
 					}
 					// 大于
 					if (SecType.equalsIgnoreCase("ge")) {
@@ -78,6 +78,30 @@ public class DataGridUtil {
 					if (SecType.equalsIgnoreCase("noteq")) {
 						sqlWhere += String.format(" and  %s <> '%s'", field,
 								Integer.valueOf(entry.getValue()[0]));
+					}
+				}
+				else if (fieldType.equalsIgnoreCase("l")) {
+					if (SecType.equalsIgnoreCase("eq")) {
+						sqlWhere += String.format(" and  %s = %d ", field,
+								Long.valueOf(entry.getValue()[0]));
+					}
+					if (SecType.equalsIgnoreCase("in")) {
+						sqlWhere += String.format(" and  %s in ( %s )  ",
+								field, Long.valueOf(entry.getValue()[0]));
+					}
+					// 大于
+					if (SecType.equalsIgnoreCase("ge")) {
+						sqlWhere += String.format(" and %s >= '%s'", field,
+								Long.valueOf(entry.getValue()[0]));
+					}
+					// 小于
+					else if (SecType.equalsIgnoreCase("le")) {
+						sqlWhere += String.format(" and  %s <= '%s'", field,
+								Long.valueOf(entry.getValue()[0]));
+					}
+					if (SecType.equalsIgnoreCase("noteq")) {
+						sqlWhere += String.format(" and  %s <> '%s'", field,
+								Long.valueOf(entry.getValue()[0]));
 					}
 				}
 				// 如果为字符串

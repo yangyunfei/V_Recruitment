@@ -2,13 +2,14 @@ package com.lianjia.controller;
 
 import java.util.List;
 
-
-
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
+import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.TableCode;
 
+@Before(AuthenticationInterceptor.class)
 public class CommonController extends Controller {
 
 	@Clear

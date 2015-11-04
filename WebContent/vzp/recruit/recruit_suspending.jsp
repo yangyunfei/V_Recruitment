@@ -22,16 +22,14 @@
 		$.canAdd = true;
 	</script>
 </c:if>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/download.js"></script>
 <script type="text/javascript">
 	var dataGrid;
 	$(function() {
 		dataGrid = $('#dataGrid')
 				.datagrid(
 						{
-							url : '${pageContext.request.contextPath}/jf/cusController/dataGrid',
-
+							url : '${pageContext.request.contextPath}/jf/recruitController/dataGrid',
+							queryParams: {"sec.state.i.eq": 1 ,"sec.user_id.l.eq": '${user.id}'},
 							fit : true,
 							fitColumns : false,
 							border : false,
@@ -55,25 +53,15 @@
 										width : 150,
 										checkbox : true
 									},
+									/**
+									
 									{
-										field : 'customer_code',
-										title : '客户编号',
-										width : 110,
-										sortable : true,
-										formatter : function(value, row, index) {
-											var str = $.formatString(
-													'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >'
-															+ value + '</a>',
-													row.id, row.customer_code);
-											return str;
-										}
-									}, {
-										field : 'name',
-										title : '客户名称',
-										width : 80,
+										field : 'lastUpdateTime',
+										title : '更新时间',
+										width : 150,
 										sortable : true
-									} ] ],
-							columns : [ [
+									},
+									*/
 									{
 										field : 'createtime',
 										title : '创建时间',
@@ -81,104 +69,91 @@
 										sortable : true
 									},
 									{
-										field : 'modifytime',
-										title : '进展更新日期',
-										width : 150,
-										sortable : true
-									},
-									{
+										field : 'name',
+										title : '求职者姓名',
+										width : 80,
+										sortable : true,
+										formatter : function(value, row, index) {
+											var str = $.formatString(
+													'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >'
+															+ value + '</a>',
+													row.id, row.name);
+											return str;
+										}
+									}, {
 										field : 'phone',
-										title : '客户电话',
-										width : 120,
+										title : '联系方式',
+										width : 100,
 										sortable : true
-									},
+									} ] ],
+							columns : [ [
 									{
-										field : 'cus_name',
-										title : '客户服务名称',
-										width : 120,
-										sortable : true
-									},
-									{
-										field : 'type',
-										title : '客户类型',
-										width : 120,
+										field : 'degree',
+										title : '学历',
+										width : 80,
 										formatter : function(value, row, index) {
 											var str = value;
-											if (0 == value)
-												str = "app用户"
-											else if (2 == value)
-												str = "后台添加用户"
-											else if (1 == value)
-												str = "微信增加用户"
+											if (0 == value) {
+												str = "其他";
+											} else if (1 == value) {
+												str = "专科";
+											} else if (2 == value) {
+												str = "本科";
+											} else if (3 == value) {
+												str = "硕士及以上";
+											} 
 											return str;
 										}
 									},
 									{
-										field : 'source',
-										title : '客户来源',
-										//colspan: 4,
-										width : 150,
+										field : 'school_level',
+										title : '学校级别',
+										width : 50,
+										sortable : true
+									},
+									{
+										field : 'origin',
+										title : '渠道来源',
+										width : 100,
 										formatter : function(value, row, index) {
 											var str = value;
-											if (7 == value)
-												str = "IOS"
-											if (6 == value)
-												str = "ANDROID"
-											if (3 == value)
-												str = "经纪人推荐"
-											else if (2 == value)
-												str = "库存"
-											else if (1 == value)
-												str = "当前推广"
+											if (0 == value) {
+												str = "其他端口";
+											} else if (1 == value) {
+												str = "58同城";
+											} else if (2 == value) {
+												str = "赶集网";
+											} else if (3 == value) {
+												str = "前程无忧";
+											} else if (4 == value) {
+												str = "智联招聘";
+											}else if (5 == value) {
+												str = "中华英才网";
+											}else if (6 == value) {
+												str = "转介绍";
+											}
+											
 											return str;
 										}
-									}, /*{
-																													field : 'industry',
-																													title : '客户行业',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'phone',
-																													title : '客户联系方式',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'agent_name',
-																													title : '负责人',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'step1',
-																													title : '推荐',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'step2',
-																													title : '跟进',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'step3',
-																													title : '带看',
-																													//colspan: 4,
-																													width : 150
-																												}, {
-																													field : 'step4',
-																													title : '再谈',
-																													//colspan: 4,
-																													width : 150
-																												},*/
+									},
+									{
+										field : 'recordmanname',
+										title : '推荐人姓名',
+										width : 80
+									},
 									{
 										field : 'state',
-										title : '客户状态',
+										title : '注释',
 										//colspan: 4,
-										width : 150,
+										width : 80,
 										formatter : function(value, row, index) {
 											var str = value;
 											  if (2 == value)
-												str = "失效客户"
+												str = "待面试"
 											else if (1 == value)
-												str = "正常客户"
+												str = "待处理"
+													else if (3 == value)
+														str = "初试通过"
 											return str;
 										}
 									}
@@ -187,15 +162,30 @@
 									{
 										field : 'action',
 										title : '操作',
-										width : 100,
+										width : 300,
 										formatter : function(value, row, index) {
 											var str = '';
+											if(row.state == 1)
+											{
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="joinInterview(\'{0}\');" >参加面试</a>',
+														row.id);
+												str += "&nbsp;&nbsp;";
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="breakOff(\'{0}\');" >其他</a>',
+														row.id);
+											}											
+											/* 
+											if ($.canEdit){
 											str += $
 													.formatString(
 															'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >查看</a>',
 															row.id,
-															row.customer_code);
-											/* str += '&nbsp;';
+															row.name);
+											}
+											str += '&nbsp;';
 											if ($.canEdit) {
 												str += $
 														.formatString(
@@ -452,8 +442,8 @@
 		dataGrid.datagrid('load', $.serializeObject($('#searchForm')));
 	}
 	function cleanFun() {
-		$('#searchForm input').val('');
-		dataGrid.datagrid('load', {});
+		$('#searchTable input').val('');
+		dataGrid.datagrid('load', {"sec.state.i.eq": 1 ,"sec.user_id.l.eq": '${user.id}'});
 	}
 	function exportReport() {
 		var opt = dataGrid.datagrid('options');
@@ -467,6 +457,41 @@
 				'${pageContext.request.contextPath}/jf/exportExcelController/excel?tab=customers_app',
 				sec, 'POST');
 	}
+	
+	function joinInterview(id){
+		parent.$.modalDialog({
+			title : '面试时间',
+			width : 400,
+			height : 200,
+			href : '${pageContext.request.contextPath}/jf/recruitController/toJoinInterview/'+id,
+			buttons : [ {
+				text : '提交',
+				handler : function() {
+					parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+					var f = parent.$.modalDialog.handler.find('#form');
+					f.submit();
+				}
+			} ]
+		});
+	};
+	function breakOff(id)
+	{
+		parent.$.modalDialog({
+			title : '取消时间',
+			width : 400,
+			height : 200,
+			href : '${pageContext.request.contextPath}/jf/recruitController/toBreakOff/'+id,
+			buttons : [ {
+				text : '提交',
+				handler : function() {
+					parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+					var f = parent.$.modalDialog.handler.find('#form');
+					f.submit();
+				}
+			} ]
+		});
+	};
+	
 </script>
 </head>
 <body>
@@ -474,57 +499,17 @@
 		<div data-options="region:'north',title:'查询条件',border:false"
 			style="height: 100px;">
 			<form id="searchForm">
-				<table class="table table-hover table-condensed"
+				<table id="searchTable" class="table table-hover table-condensed"
 					style="display: none;">
 					<tr>
-						<th>客户姓名</th>
-						<td><input name="sec.name.s.like" placeholder="请输入客户姓名"
-							class="span2" /></td>
-						<th>客户编号</th>
-						<td><input name="sec.customer_code.s.eq"
-							placeholder="请输入客户编号" class="span2" /></td>
-						<th>客户电话</th>
-						<td><input name="sec.phone.s.eq" placeholder="请输入客电话号码"
+						<th>求职者姓名</th>
+						<td><input name="sec.name.s.like" placeholder="请输入求职者姓名"
+							class="span2" /></td>						
+						<th>求职者电话</th>
+						<td><input name="sec.phone.s.eq" placeholder="请输入电话号码"
 							class="span2" /></td>
 					</tr>
 
-					<tr>
-						<th>客户标签</th>
-						<td><select class="form-control input-sm"
-							style="width: 130px" name="sec.label.s.eq">
-								<option value="">不限</option>
-								<option value="1">品牌客户</option>
-								<option value="2">长期客户</option>
-								<option value="3">急需客户</option>
-						</select></td>
-
-						<th>客户状态</th>
-						<td><select class="form-control input-sm"
-							style="width: 130px" name="sec.state.s.eq">
-								<option value="">不限</option>
-								<option value="1">正常客户</option>
-								<option value="2">失效客户</option>
-						</select></td>
-
-						<th>客户来源</th>
-						<td><select class="form-control input-sm"
-							style="width: 130px" name="sec.source.s.eq">
-								<option value="">不限</option>
-								<option value="1">当前推广</option>
-								<option value="2">库存</option>
-								<option value="3">经纪人推荐</option>
-								<option value="6">ANDROID</option>
-								<option value="7">IOS</option>
-						</select></td>
-							<th>客户类型</th>
-						<td><select class="form-control input-sm"
-							style="width: 130px" name="sec.type.s.eq">
-								<option value="">不限</option>
-								<option value="0">app用户</option>
-								<option value="1">微信增加用户 </option>
-								<option value="2">后台添加用户</option>
-						</select></td>
-					</tr>
 					<!--  
 					<tr>
 						<th>面积范围</th>
@@ -575,6 +560,8 @@
 						<td><input class="span2" name="modifydatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="modifydatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td>
 					</tr> -->
 				</table>
+				<input name="sec.state.i.eq" type="hidden" value="1" />
+				<input name="sec.user_id.l.eq" type="hidden" value="${user.id}" />			
 			</form>
 		</div>
 		<div data-options="region:'center',border:false">
@@ -588,7 +575,7 @@
 				data-options="plain:true,iconCls:'pencil_add'">添加</a>
 		</c:if>
 		<a href="javascript:void(0);" class="easyui-linkbutton"
-			data-options="iconCls:'brick_add',plain:true" onclick="searchFun();">过滤条件</a><a
+			data-options="iconCls:'brick_add',plain:true" onclick="searchFun();">查询</a><a
 			href="javascript:void(0);" class="easyui-linkbutton"
 			data-options="iconCls:'brick_delete',plain:true"
 			onclick="cleanFun();">清空条件</a>

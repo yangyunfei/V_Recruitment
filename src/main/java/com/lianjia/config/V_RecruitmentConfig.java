@@ -27,11 +27,14 @@ import com.lianjia.index.IndexController;
 import com.lianjia.model.Agent;
 import com.lianjia.model.BusinessArea;
 import com.lianjia.model.Presentee;
+import com.lianjia.model.Recruit;
 import com.lianjia.model.Module;
 import com.lianjia.model.Remark;
 import com.lianjia.model.Role;
 import com.lianjia.model.TableCode;
 import com.lianjia.model.User;
+import com.lianjia.model.V_Recruit;
+import com.lianjia.model.V_Source;
 import com.lianjia.model.WechatUser;
 
 
@@ -85,6 +88,11 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		arp.addMapping("role", Role.class);
 		arp.addMapping("table_code", TableCode.class);
 		arp.addMapping("business_area", BusinessArea.class);
+		arp.addMapping("recruit", Recruit.class);
+		arp.addMapping("v_recruit",V_Recruit.class);
+		arp.addMapping("v_source",V_Source.class);
+		
+		
 		
 	}
 
