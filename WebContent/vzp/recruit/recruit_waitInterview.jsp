@@ -38,8 +38,8 @@
 							idField : 'id',
 							pageSize : 10,
 							pageList : [ 10, 20, 30, 40, 50 ],
-							sortName : 'createtime',
-							sortOrder : 'desc',
+							sortName : 'interviewtime',
+							sortOrder : 'asc',
 							checkOnSelect : false,
 							selectOnCheck : false,
 							nowrap : false,
@@ -76,9 +76,9 @@
 										sortable : true,
 										formatter : function(value, row, index) {
 											var str = $.formatString(
-													'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >'
+													'<a href="javascript:void(0);" onclick="xview(\'{0}\');" >'
 															+ value + '</a>',
-													row.id, row.name);
+													row.presentee_id);
 											return str;
 										}
 									}, {
@@ -146,7 +146,14 @@
 									{
 										field : 'recordmanname',
 										title : '推荐人姓名',
-										width : 80
+										width : 80,
+										formatter : function(value, row, index) {
+											var str = $.formatString(
+													'<a href="javascript:void(0);" onclick="agentView(\'{0}\');" >'
+															+ value + '</a>',
+													row.recordmannum);
+											return str;
+										}
 									},
 									{
 										field : 'state',
@@ -191,31 +198,9 @@
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="weicanjiamianshi(\'{0}\');" >未参见面试</a>',
+														'<a href="javascript:void(0);" onclick="noComeInterview(\'{0}\');" >未参加面试</a>',
 														row.id);
-											}											
-											/* 
-											if ($.canEdit){
-											str += $
-													.formatString(
-															'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >查看</a>',
-															row.id,
-															row.name);
-											}
-											str += '&nbsp;';
-											if ($.canEdit) {
-												str += $
-														.formatString(
-																'<a href="javascript:void(0);" onclick="editFun(\'{0}\');" >修改</a>',
-																row.id);
-											}
-											str += '&nbsp;';
-											if ($.canDelete) {
-												str += $
-														.formatString(
-																'<a href="javascript:void(0);" onclick="deleteFun(\'{0}\');" >删除</a>',
-																row.id);
-											} */
+											}																					
 
 											return str;
 										}
@@ -454,6 +439,35 @@
 			iconCls : 'status_online'
 		});
 	}
+	
+	function xview(id) {
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '基本信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/sourceController/xview?id='
+							+ id,
+					buttons : []
+				});
+	}
+	
+	function agentView(pager)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '推荐人信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/commonController/agentView/'
+							+ pager,
+					buttons : []
+				});
+	}
 
 	function searchFun() {
 		dataGrid.datagrid('load', $.serializeObject($('#searchForm')));
@@ -490,7 +504,7 @@
 								});
 								$
 										.post(
-												'${pageContext.request.contextPath}/jf/recruitController/nopass/'+id,
+												'${pageContext.request.contextPath}/jf/recruitController/pass/'+id,
 												{
 													
 												},
@@ -527,6 +541,61 @@
 								$
 										.post(
 												'${pageContext.request.contextPath}/jf/recruitController/nopass/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	}
+	
+	
+	function EditInterview(id){
+		parent.$.modalDialog({
+			title : '面试时间',
+			width : 400,
+			height : 200,
+			href : '${pageContext.request.contextPath}/jf/recruitController/toEditInterview/'+id,
+			buttons : [ {
+				text : '提交',
+				handler : function() {
+					parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+					var f = parent.$.modalDialog.handler.find('#form');
+					f.submit();
+				}
+			} ]
+		});
+	};
+	
+	
+	function noComeInterview(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定未参加面试 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/noComeInterview/'+id,
 												{
 													
 												},

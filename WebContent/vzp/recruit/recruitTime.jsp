@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	
 	function clearForm(){
-		var title = '添加面试时间';
+		var title = '${title}';
 		window.parent.closeTab(title);
 	}
 	
@@ -16,7 +16,7 @@
 	$(function(){
 		parent.$.messager.progress('close');
 		$('#form').form({
-			url : '${pageContext.request.contextPath}/jf/recruitController/joinInterview',
+			url : '${pageContext.request.contextPath}/jf/recruitController/${url}',
 			onSubmit : function() {
 				//parent.$.messager.progress({
 				//	title : '提示',
@@ -46,8 +46,8 @@
      <form id="form" method="post">
      	 <input type="hidden" name="rt_id" value="${recruit.id }"></input>   
      	 
-     	 <th>面试时间</th>
-		 <td><input class="span2" name="interviewtime" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td>	           
+     	 面试时间
+		 <input class="span2" name="interviewtime" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',realDateFmt:'yyyy-MM-dd HH-mm-ss',realTimeFmt:'HH:mm:ss HH-mm-ss'})" readonly="readonly" />           
     
      </form>
      <!-- 

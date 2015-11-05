@@ -73,4 +73,36 @@ public class RecruitServer
 		return tx;
 	}
 
+	public boolean EditInterview(Recruit recruit, Date interviewtime) {
+		recruit.set("interviewtime", interviewtime);
+		recruit.set("lastUpdateTime", new Date());
+		return recruit.update();
+	}
+
+	public boolean getOutTrain(Recruit recruit, Integer cancle) {
+		recruit.set("state", Constants.STATE_INVALID);
+		recruit.set("cancle", cancle);
+		recruit.set("lastUpdateTime", new Date());
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("cancle", cancle);
+		//放入历史
+		
+		pst.set("handleman", 0);
+		pst.set("weight", 1);
+		pst.set("lastUpdateTime", new Date());
+		
+		
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update();
+			}
+		});
+		
+		return tx;
+	}
+
 }

@@ -3,6 +3,7 @@ package com.lianjia.controller;
 
 
 import java.util.Date;
+import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -14,6 +15,7 @@ import com.lianjia.common.ResponseResult;
 import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Presentee;
 import com.lianjia.model.Recruit;
+import com.lianjia.model.TableCode;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
 
@@ -71,6 +73,12 @@ public class SourceController  extends Controller
 	
 		Page<Record> pageList = DataGridUtil.dataGrid(this, "v_source");
 		DataGrid dg=new DataGrid();
+		List<Record> list = pageList.getList();
+		for(Record rd : list)
+		{			
+			String codeName = TableCode.dao.GetSimpleCodeName("presentee", "cancle", String.valueOf(rd.getInt("cancle")));
+			rd.set("canclename", codeName);
+		}
 		dg.setRows(pageList.getList());
 		dg.setTotal(pageList.getTotalRow());
 		renderJson(dg);	

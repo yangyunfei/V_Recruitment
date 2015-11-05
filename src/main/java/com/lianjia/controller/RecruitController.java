@@ -1,6 +1,7 @@
 package com.lianjia.controller;
 
 import java.util.Date;
+import java.util.Random;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -15,6 +16,8 @@ import com.lianjia.model.Recruit;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
 import com.lianjia.server.RecruitServer;
+import com.lianjia.tools.ToolDate;
+import com.lianjia.tools.ToolDateTime;
 
 @Before(AuthenticationInterceptor.class)
 public class RecruitController extends Controller 
@@ -54,7 +57,9 @@ public class RecruitController extends Controller
 		long rt_id = getParaToLong(0);		
 		Recruit recruit =Recruit.dao.findById(rt_id);	
 		setAttr("recruit", recruit);
-		render("/vzp/recruit/recruitaddTime.jsp");
+		setAttr("url", "joinInterview");
+		setAttr("title", "添加面试时间");
+		render("/vzp/recruit/recruitTime.jsp");
 	}
 	
 	/**
@@ -62,12 +67,13 @@ public class RecruitController extends Controller
 	 */
 	public void joinInterview()
 	{
-		Date interviewtime = getParaToDate("interviewtime");	
-		if(null == interviewtime)
+		String timeStr = getPara("interviewtime");			
+		if(null == timeStr)
 		{
 			renderJson(new ResponseResult(false,"请选择时间！",null));
 			return;
 		}
+		Date interviewtime = ToolDateTime.parse(timeStr);
 		long rt_id = getParaToLong("rt_id");
 		Recruit recruit =Recruit.dao.findById(rt_id);
 		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
@@ -99,6 +105,10 @@ public class RecruitController extends Controller
 		long rt_id = getParaToLong(0);		
 		Recruit recruit =Recruit.dao.findById(rt_id);
 		setAttr("recruit", recruit);
+		setAttr("url", "breakOff");
+		setAttr("title", "取消初试"); 
+		setAttr("content", "请选择不参加初试的原因");
+		setAttr("cancle_url", "cancle-notInterview");
 		render("/vzp/recruit/recruitCancel.jsp");
 	}
 	
@@ -119,7 +129,7 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
 			return;
 		};
-		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		if(!recruit.validateState(Constants.STATE_SUSPENDING))
 		{
 			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
 			return;
@@ -157,13 +167,22 @@ public class RecruitController extends Controller
 		
 		long rt_id = getParaToLong(0);		
 		Recruit recruit =Recruit.dao.findById(rt_id);
-		recruit.set("state", 3);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			return;
+		};
+		recruit.set("state", Constants.STATE_WAIT_SECONDINTERVIEW);
 		recruit.set("lastUpdateTime", new Date());
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
-		pst.set("state", 3);
-		pst.set("handleman", 0);
-		pst.set("weight", 1);
+		pst.set("state", Constants.STATE_WAIT_SECONDINTERVIEW);
 		pst.set("lastUpdateTime", new Date());
 		if(recruit.update()&&pst.update())
 		{
@@ -176,13 +195,6 @@ public class RecruitController extends Controller
 	   
 	}
 	
-	public void toNoPass()
-	{
-		long rt_id = getParaToLong(0);		
-		Recruit recruit =Recruit.dao.findById(rt_id);
-		setAttr("recruit", recruit);
-		render("/vzp/recruit/recruitNoPass.jsp");
-	}
 	
 	public  void  nopass()
 	{
@@ -190,6 +202,17 @@ public class RecruitController extends Controller
 		
 		long rt_id = getParaToLong(0);
 		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			return;
+		};
 		recruit.set("state", -1);
 		recruit.set("lastUpdateTime", new Date());
 		recruit.set("cancle", 8);
@@ -211,17 +234,253 @@ public class RecruitController extends Controller
 	   
 	}
 	
-	/**
-	 * 商铺推广或取消
-	 */
-	public  void  spread()
+	
+	public  void  noComeInterview()
 	{
-	  
+		
+		
+		long rt_id = getParaToLong(0);
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			return;
+		};
+		recruit.set("state", -1);
+		recruit.set("lastUpdateTime", new Date());
+		recruit.set("cancle", 9);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", -1);
+		pst.set("lastUpdateTime", new Date());
+		pst.set("handleman", 0);
+		pst.set("weight", 0);
+		pst.set("cancle", 9);	
+		if(recruit.update()&&pst.update())
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
 	   
 	}
-	/**
-	 * 商铺查看
-	 */
+	
+	
+	
+
+	public  void  toEditInterview()
+	{
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);	
+		setAttr("url", "joinInterview");
+		setAttr("title", "修改面试时间");
+		setAttr("recruit", recruit);
+		setAttr("url", "EditInterview");
+		render("/vzp/recruit/recruitTime.jsp");
+	   
+	}
+	
+	public void EditInterview()
+	{
+		String timeStr = getPara("interviewtime");			
+		if(null == timeStr)
+		{
+			renderJson(new ResponseResult(false,"请选择时间！",null));
+			return;
+		}
+		Date interviewtime = ToolDateTime.parse(timeStr);
+		long rt_id = getParaToLong("rt_id");
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			return;
+		};
+		boolean result = RecruitServer.server.EditInterview(recruit,interviewtime);		
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+		
+		
+	}
+	
+	public  void  callOnEagleEye()
+	{
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);	
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_SECONDINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			return;
+		};
+		Random random = new Random();
+		int nextInt = random.nextInt(100);
+		boolean result = false;
+		if(0 == nextInt%5)
+		{
+			result = true;
+			recruit.set("state", Constants.STATE_WAIT_TRAIN);
+			recruit.set("lastUpdateTime", new Date());
+			long pst_id = recruit.getLong("presentee_id");
+			Presentee pst = Presentee.dao.findById(pst_id);
+			pst.set("state", Constants.STATE_WAIT_TRAIN);
+			pst.set("lastUpdateTime", new Date());
+			result = recruit.update()&&pst.update();
+			
+			
+		}
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"还没有查询出来结果！请等一段时间后再试！",null));
+		}
+	   
+	}
+	
+	
+	public  void  notTrain()
+	{
+		
+		
+		long rt_id = getParaToLong(0);
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_TRAIN))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待培训状态，请刷新页面！",null));
+			return;
+		};
+		recruit.set("state", -1);
+		recruit.set("lastUpdateTime", new Date());
+		recruit.set("cancle", 10);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", -1);
+		pst.set("lastUpdateTime", new Date());
+		pst.set("handleman", 0);
+		pst.set("weight", 0);
+		pst.set("cancle", 10);	
+		if(recruit.update()&&pst.update())
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
+	}
+	
+	public  void  passTrain()
+	{	
+		long rt_id = getParaToLong(0);
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_TRAIN))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待培训状态，请刷新页面！",null));
+			return;
+		};
+		recruit.set("state", Constants.STATE_WAIT_ENTRANT);
+		recruit.set("lastUpdateTime", new Date());
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_WAIT_ENTRANT);
+		pst.set("lastUpdateTime", new Date());
+
+		if(recruit.update()&&pst.update())
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
+	}
+	
+	public void toGetOutTrain()
+	{
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		setAttr("recruit", recruit);
+		setAttr("url", "getOutTrain");
+		setAttr("title", "培训淘汰"); 
+		setAttr("content", "请选择培训淘汰的原因");
+		setAttr("cancle_url", "cancle-noPassTrain");
+		render("/vzp/recruit/recruitCancel.jsp");
+	}
+	
+	public void getOutTrain()
+	{
+		long rt_id = getParaToLong("rt_id");
+		Integer cancle = getParaToInt("cancle");	
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		if(null == cancle)
+		{
+			renderJson(new ResponseResult(false,"请选择原因！",null));
+			return;
+		};
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_TRAIN))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
+			return;
+		};
+		boolean result = RecruitServer.server.getOutTrain(recruit,cancle);			
+		
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	}
 	public void view()
 	{
 	   

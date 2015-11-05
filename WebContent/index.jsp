@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>真有铺</title>
+<title>招聘系统</title>
 <jsp:include page="inc.jsp"></jsp:include>
 <script type="text/javascript">
 	var index_tabs;
@@ -124,7 +124,7 @@
 	<div id="index_layout">
 		<div data-options="region:'north',href:'${pageContext.request.contextPath}/layout/north.jsp'" style="height: 70px; overflow: hidden;background-color: rgb(20, 148, 255);" class="logo" ></div>
 		<div data-options="region:'west',href:'${pageContext.request.contextPath}/layout/west.jsp',split:true" title="导航" style="width: 200px; overflow: hidden;"></div>
-		<div data-options="region:'center'" title="欢迎使用真有铺" style="overflow: hidden;">
+		<div data-options="region:'center'" title="欢迎使用招聘系统" style="overflow: hidden;">
 			<div id="index_tabs" style="overflow: hidden;">
 				<div title="首页" data-options="border:true" style="overflow: hidden;">
 					<iframe src="${pageContext.request.contextPath}/portal/index.jsp" frameborder="0" style="border: 0; width: 100%; height: 98%;"></iframe>

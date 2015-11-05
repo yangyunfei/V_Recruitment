@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     <meta content="IE=EmulateIE7" http-equiv="X-Ua-Compatible">
-<title>真有铺后台管理系统</title>
+<title>招聘后台管理系统</title>
 <jsp:include page="inc.jsp"></jsp:include>
  <link href="stylesheets/base.css" rel="stylesheet" type="text/css" />
 <link href="stylesheets/index.css" rel="stylesheet" type="text/css" />   

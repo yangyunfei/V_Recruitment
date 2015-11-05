@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	
 	function clearForm(){
-		var title = '添加面试时间';
+		var title = '${title}';
 		window.parent.closeTab(title);
 	}
 	
@@ -16,7 +16,7 @@
 	$(function(){
 		parent.$.messager.progress('close');
 		$('#form').form({
-			url : '${pageContext.request.contextPath}/jf/recruitController/breakOff',
+			url : '${pageContext.request.contextPath}/jf/recruitController/${url}',
 			onSubmit : function() {
 				//parent.$.messager.progress({
 				//	title : '提示',
@@ -45,13 +45,13 @@
 	<div style="padding:10px 60px 20px 60px">
      <form id="form" method="post">
      	 <input type="hidden" name="rt_id" value="${recruit.id }"></input>   
-     				 请选择不参加初试的原因
+     				${content}
      	
 		<br>
 		<select class="easyui-combobox" id="water"
 							name="cancle"
 							data-options="
-						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode/presentee-cancle1',
+						 url: '${pageContext.request.contextPath}/jf/commonController/getTableCode/${cancle_url} ',
                 method: 'get',
                  panelHeight:'auto',
                 valueField: 'code',

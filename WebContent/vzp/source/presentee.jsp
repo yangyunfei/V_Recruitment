@@ -62,8 +62,14 @@
 										checkbox : true
 									},
 									{
+										field : 'createtime',
+										title : '创建时间',
+										width : 150,
+										sortable : true
+									},
+									{
 										field : 'name',
-										title : '姓名',
+										title : '求职者姓名',
 										width : 80,
 										sortable : true,
 										formatter : function(value, row, index) {
@@ -82,29 +88,9 @@
 									} ] ],
 							columns : [ [
 									{
-										field : 'recordman',
-										title : '录入人系统号',
-										width : 100,
-										sortable : true
-									},
-									{
-										field : 'school_name',
-										title : '学校名称',
-										width : 80,
-										formatter : function(value, row, index) {
-											var str = value;
-											if (0 == value) {
-												str = "否"
-											} else {
-												str = "是";
-											}
-											return str;
-										}
-									},
-									{
 										field : 'degree',
 										title : '学历',
-										width : 80,
+										width : 70,
 										formatter : function(value, row, index) {
 											var str = value;
 											if (0 == value) {
@@ -118,28 +104,22 @@
 											} 
 											return str;
 										}
-									},
+									},									
 									{
 										field : 'school_level',
 										title : '学校级别',
-										width : 80
+										width : 70
 									},									
 									{
-										field : 'createtime',
-										title : '创建时间',
-										width : 200,
-										sortable : true
+										field : 'school_name',
+										title : '学校名称',
+										width : 100
 									},
-									{
-										field : 'lastUpdateTime',
-										title : '最后修改时间',
-										width : 200,
-										sortable : true
-									},
+									
 									{
 										field : 'origin',
 										title : '渠道来源',
-										width : 120,
+										width : 100,
 										formatter : function(value, row, index) {
 											var str = value;
 											if (0 == value) {
@@ -160,6 +140,24 @@
 											
 											return str;
 										}
+									},
+									{
+										field : 'recordmanname',
+										title : '推荐人姓名',
+										width : 80,
+										formatter : function(value, row, index) {
+											var str = $.formatString(
+													'<a href="javascript:void(0);" onclick="agentView(\'{0}\');" >'
+															+ value + '</a>',
+													row.recordmannum);
+											return str;
+										}
+									},
+									{
+										field : 'canclename',
+										title : '最后修改时间',
+										width : 150,
+										sortable : true
 									},
 									{
 										field : 'action',
@@ -366,6 +364,21 @@
 							+ id,
 					title : '查看详情-' + name,
 					iconCls : 'status_online'
+				});
+	}
+	
+	function agentView(pager)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '推荐人信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/commonController/agentView/'
+							+ pager,
+					buttons : []
 				});
 	}
 

@@ -30,7 +30,7 @@
 				.datagrid(
 						{
 							url : '${pageContext.request.contextPath}/jf/recruitController/dataGrid',
-							queryParams: {"sec.state.i.in": "3,6,9,11", "sec.user_id.l.eq": '${user.id}'},
+							queryParams: {"sec.state.i.in": "3,4,5,6", "sec.user_id.l.eq": '${user.id}'},
 							fit : true,
 							fitColumns : false,
 							border : false,
@@ -38,7 +38,7 @@
 							idField : 'id',
 							pageSize : 10,
 							pageList : [ 10, 20, 30, 40, 50 ],
-							sortName : 'createtime',
+							sortName : 'lastUpdateTime',
 							sortOrder : 'desc',
 							checkOnSelect : false,
 							selectOnCheck : false,
@@ -76,16 +76,15 @@
 										sortable : true,
 										formatter : function(value, row, index) {
 											var str = $.formatString(
-													'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >'
+													'<a href="javascript:void(0);" onclick="xview(\'{0}\');" >'
 															+ value + '</a>',
-													row.id, row.name);
+													row.presentee_id);
 											return str;
 										}
 									}, {
 										field : 'phone',
 										title : '联系方式',
-										width : 100,
-										sortable : true
+										width : 100
 									} ] ],
 							columns : [ [
 									{
@@ -109,7 +108,7 @@
 									{
 										field : 'school_level',
 										title : '学校级别',
-										width : 50,
+										width : 70,
 										sortable : true
 									},
 									{
@@ -140,7 +139,14 @@
 									{
 										field : 'recordmanname',
 										title : '推荐人姓名',
-										width : 80
+										width : 80,
+										formatter : function(value, row, index) {
+											var str = $.formatString(
+													'<a href="javascript:void(0);" onclick="agentView(\'{0}\');" >'
+															+ value + '</a>',
+													row.recordmannum);
+											return str;
+										}
 									},
 									{
 										field : 'state',
@@ -155,6 +161,10 @@
 												str = "待处理"
 													else if (3 == value)
 														str = "初试通过"
+															else if (4 == value)
+																str = "复试通过"
+																	else if (5 == value)
+																		str = "培训通过"
 											return str;
 										}
 									}
@@ -170,31 +180,31 @@
 											{
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="pass(\'{0}\');" >询问鹰眼</a>',
+														'<a href="javascript:void(0);" onclick="callOnEagleEye(\'{0}\');" >询问鹰眼</a>',
 														row.id);												
 											}
 											else if(row.state == 4)
 											{											
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="nopass(\'{0}\');" >未参加培训</a>',
+														'<a href="javascript:void(0);" onclick="notTrain(\'{0}\');" >未参加培训</a>',
 														row.id);
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="EditInterview(\'{0}\');" >通过</a>',
+														'<a href="javascript:void(0);" onclick="passTrain(\'{0}\');" >通过</a>',
 														row.id);
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="weicanjiamianshi(\'{0}\');" >淘汰</a>',
+														'<a href="javascript:void(0);" onclick="getOutTrain(\'{0}\');" >淘汰</a>',
 														row.id);											
 											}
 											else if(row.state == 5)
 											{											
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="nopass(\'{0}\');" >未入职</a>',
+														'<a href="javascript:void(0);" onclick="noEntrant(\'{0}\');" >未入职</a>',
 														row.id);																	
 											}
 											
@@ -460,13 +470,43 @@
 			iconCls : 'status_online'
 		});
 	}
+	
+	function xview(id) {
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '基本信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/sourceController/xview?id='
+							+ id,
+					buttons : []
+				});
+	}
+	
+	function agentView(pager)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '推荐人信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/commonController/agentView/'
+							+ pager,
+					buttons : []
+				});
+	}
 
+	
 	function searchFun() {
 		dataGrid.datagrid('load', $.serializeObject($('#searchForm')));
 	}
 	function cleanFun() {
 		$('#searchTable input').val('');
-		dataGrid.datagrid('load', {"sec.state.i.in": "3,6,9,11", "sec.user_id.l.eq": '${user.id}'});
+		dataGrid.datagrid('load', {"sec.state.i.in": "3,4,5,6", "sec.user_id.l.eq": '${user.id}'});
 	}
 	function exportReport() {
 		var opt = dataGrid.datagrid('options');
@@ -479,6 +519,164 @@
 		download(
 				'${pageContext.request.contextPath}/jf/exportExcelController/excel?tab=customers_app',
 				sec, 'POST');
+	}
+	
+	
+	function callOnEagleEye(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定访问鹰眼 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/callOnEagleEye/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													else
+													{
+														parent.$.messager
+														.alert(
+																'提示',
+																result.msg,
+																'info');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	};
+	
+	function notTrain(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定未参加培训 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/notTrain/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													else
+													{
+														parent.$.messager
+														.alert(
+																'提示',
+																result.msg,
+																'info');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	};
+	
+	
+	
+	function passTrain(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定培训通过 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/passTrain/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													else
+													{
+														parent.$.messager
+														.alert(
+																'提示',
+																result.msg,
+																'info');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	};
+	
+	function getOutTrain(id)
+	{
+		parent.$.modalDialog({
+			title : '淘汰原因',
+			width : 400,
+			height : 200,
+			href : '${pageContext.request.contextPath}/jf/recruitController/toGetOutTrain/'+id,
+			buttons : [ {
+				text : '提交',
+				handler : function() {
+					parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+					var f = parent.$.modalDialog.handler.find('#form');
+					f.submit();
+				}
+			} ]
+		});
+	};
+	
+	function noEntrant(id)
+	{
+		alert("");
 	}
 	
 </script>
@@ -549,7 +747,7 @@
 						<td><input class="span2" name="modifydatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="modifydatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td>
 					</tr> -->
 				</table>
-				<input name="sec.state.i.in" type="hidden" value="3,6,9,11" />
+				<input name="sec.state.i.in" type="hidden" value="3,4,5,6" />
 				<input name="sec.user_id.l.eq" type="hidden" value="${user.id}" />	
 			</form>
 		</div>

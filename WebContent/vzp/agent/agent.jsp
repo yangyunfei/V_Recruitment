@@ -96,10 +96,6 @@
 					switch(value)
 					{
 						case 0 : return "后台用户";
-						case 1 : return "普通经纪人";
-						case 2 : return "注册经纪人";
-						case 3 : return "真有铺经纪人";
-						case 4 : return "商铺专家";
 					}
 				}
 			},

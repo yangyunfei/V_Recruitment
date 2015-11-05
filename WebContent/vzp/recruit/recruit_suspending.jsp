@@ -75,9 +75,9 @@
 										sortable : true,
 										formatter : function(value, row, index) {
 											var str = $.formatString(
-													'<a href="javascript:void(0);" onclick="view(\'{0}\',\'{1}\');" >'
+													'<a href="javascript:void(0);" onclick="xview(\'{0}\');" >'
 															+ value + '</a>',
-													row.id, row.name);
+													row.presentee_id);
 											return str;
 										}
 									}, {
@@ -145,7 +145,14 @@
 									{
 										field : 'recordmanname',
 										title : '推荐人姓名',
-										width : 80
+										width : 80,
+										formatter : function(value, row, index) {
+											var str = $.formatString(
+													'<a href="javascript:void(0);" onclick="agentView(\'{0}\');" >'
+															+ value + '</a>',
+													row.recordmannum);
+											return str;
+										}
 									},
 									{
 										field : 'state',
@@ -442,6 +449,33 @@
 			title : '客户详情-' + customer_code,
 			iconCls : 'status_online'
 		});
+	}
+	function xview(id) {
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '基本信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/sourceController/xview?id='
+							+ id,
+					buttons : []
+				});
+	}
+	function agentView(pager)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$
+				.modalDialog({
+					title : '推荐人信息查看',
+					width : 400,
+					height : 400,
+					onOpen : null,
+					href : '${pageContext.request.contextPath}/jf/commonController/agentView/'
+							+ pager,
+					buttons : []
+				});
 	}
 
 	function searchFun() {
