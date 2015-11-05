@@ -90,7 +90,7 @@
 									{
 										field : 'degree',
 										title : '学历',
-										width : 80,
+										width : 70,
 										formatter : function(value, row, index) {
 											var str = value;
 											if (0 == value) {
@@ -106,15 +106,21 @@
 										}
 									},
 									{
+										field : 'school_name',
+										title : '学校名称',
+										width : 100,
+										sortable : true
+									},
+									{
 										field : 'school_level',
 										title : '学校级别',
-										width : 50,
+										width : 70,
 										sortable : true
 									},
 									{
 										field : 'origin',
 										title : '渠道来源',
-										width : 100,
+										width : 70,
 										formatter : function(value, row, index) {
 											var str = value;
 											if (0 == value) {

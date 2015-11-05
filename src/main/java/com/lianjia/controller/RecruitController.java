@@ -71,12 +71,12 @@ public class RecruitController extends Controller
 		long rt_id = getParaToLong("rt_id");
 		Recruit recruit =Recruit.dao.findById(rt_id);
 		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
-		if(recruit.validateBelongtoUser(user))
+		if(!recruit.validateBelongtoUser(user))
 		{
 			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
 			return;
 		};
-		if(recruit.validateState(Constants.STATE_SUSPENDING))
+		if(!recruit.validateState(Constants.STATE_SUSPENDING))
 		{
 			renderJson(new ResponseResult(false,"该任务不是待处理状态，请刷新页面！",null));
 			return;
@@ -114,12 +114,12 @@ public class RecruitController extends Controller
 			return;
 		};
 		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
-		if(recruit.validateBelongtoUser(user))
+		if(!recruit.validateBelongtoUser(user))
 		{
 			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
 			return;
 		};
-		if(recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
 		{
 			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
 			return;
