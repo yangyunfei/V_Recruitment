@@ -22,13 +22,15 @@ import com.lianjia.controller.RecruitController;
 import com.lianjia.controller.RoleController;
 import com.lianjia.controller.SourceController;
 import com.lianjia.controller.UserController;
-import com.lianjia.controller.weichat.PresenteeControll;
+import com.lianjia.controller.weichat.WeixinApiController;
+import com.lianjia.controller.weichat.WeixinMsgController;
 import com.lianjia.index.IndexController;
+import com.lianjia.index.WexinIndexController;
 import com.lianjia.model.Agent;
 import com.lianjia.model.BusinessArea;
+import com.lianjia.model.Module;
 import com.lianjia.model.Presentee;
 import com.lianjia.model.Recruit;
-import com.lianjia.model.Module;
 import com.lianjia.model.Remark;
 import com.lianjia.model.Role;
 import com.lianjia.model.TableCode;
@@ -109,7 +111,9 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		me.add("/jf/commonController", CommonController.class);
 		
 		//微信
-		me.add("/weixin/presenteeController", PresenteeControll.class);
+		me.add("/weixin/api", WeixinApiController.class);
+		me.add("/weixin", WeixinMsgController.class);
+		me.add("/weixinx", WexinIndexController.class);
 		
 
 		

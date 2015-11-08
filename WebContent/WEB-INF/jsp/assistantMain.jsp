@@ -41,7 +41,7 @@ $(function(){
 		
 		$(".iconsLeft").click(function(){
 			//window.location.href="${basePath}trunMain.do";	
-			window.location.href="${pageContext.request.contextPath}/weixin/presenteeController/toadd"
+			window.location.href="${pageContext.request.contextPath}/weixin/api/toadd"
 		});
 		
 });

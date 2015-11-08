@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <title>链家V服务</title>
 <link rel="stylesheet" type="text/css" href="<%=basePath %>style/style.css" />
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="<%=basePath %>js/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/job.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -28,10 +28,17 @@ $(function(){
 		
 		$("#zl").click(function(){
 			//window.location.href="assistantMain.do";
-			window.location.href="${pageContext.request.contextPath}/weixin/presenteeController/toadd"
+			window.location.href="${pageContext.request.contextPath}/weixin/api/toadd"
 		});
 	});
 });
+
+//重新登录换绑定微信号
+function toLogin()
+{
+	window.location.href="${pageContext.request.contextPath}/weixin/api/toLogin";
+}
+
 </script>
 <style type="text/css">
 	.loginbtn {
@@ -75,6 +82,7 @@ $(function(){
     <!-- head start -->
     <!-- head end -->
     <!-- mid start -->
+    <div style="margin-top: 10px;" ><label style="color: white;background-color: green;">&nbsp;姓名:&nbsp;</label><label style="color: white;background-color: green;">${Controller_WeChat_User_Key.name} </label><label style="color: white;background-color: green;float: right;" onclick="toLogin()">&nbsp;换绑定帐号&nbsp;</label></div>
     <div class="title">招聘推荐</div>
     <div class="mid" style="padding-top: 40%"><div>
     <!-- <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="jl" type="button" value="我要招人" /></div></div>-->

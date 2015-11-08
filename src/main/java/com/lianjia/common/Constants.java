@@ -3,9 +3,18 @@ package com.lianjia.common;
 public class Constants {
 
 	/**
+	 * 后台
 	 * 请求attr中放置user的中得key
 	 */
 	public static final String Controller_SESSION_User_Key = "Controller_User_Key";
+	
+	
+	/**
+	 * 微信
+	 * 请求attr中放置wechatuser的中得key
+	 */
+	public static final String Controller_SESSION_WeChat_User_Key = "Controller_WeChat_User_Key";
+	public static final String OPEN_ID = "OPEN_ID";
 
 	/**
 	 * 分页使用
@@ -63,7 +72,7 @@ public class Constants {
 	
 	
 	
-	
+	public static final String RECRUIT_CLICK_EVENTKEY  = "http://spartacus.pagekite.me/V_Recruitment/weixin/presenteeController/recruit";
 	
 
 }

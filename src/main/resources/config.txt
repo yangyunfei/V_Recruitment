@@ -11,15 +11,15 @@
 jdbcUrl = jdbc:mysql://localhost/v_recruitment?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
 user=root
 password=
-devMode = false
+devMode = true
 BaseImagePath=/home/netdisk/realstoreImg/
 MobileImagePath=/home/netdisk/mobileImg/
 
 # 微信服务器回调所用的 token
-token=__my__token__
+token=kissff
 # 测试用的账号
-appId=yourAppId
-appSecret=yourAppSecret
+appId=wx92bbc6d127325ea2
+appSecret=dd1accca00df33917c98ebde155cac84
 #是否对消息进行加密，是否对消息进行加密，对应于微信平台的消息加解密方式，false支持明文模式及兼容模式，true支持安全模式及兼容模式
 #encryptMessage=true
 #encodingAesKey=yourEncodingAesKey

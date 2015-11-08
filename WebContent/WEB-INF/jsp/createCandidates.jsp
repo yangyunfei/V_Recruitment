@@ -55,16 +55,16 @@ $("#applicantFormSub").submit(function() {
 			beforeSubmit:function(){
 				//validation();
 			},
-			success : function(msg) {
+			success : function(data) {
 				//showMessage(msg.info);
-			if (msg.succ){
-					alert(msg.info);
+			if (data.success){
+					alert(data.msg);
 					$("#submitForm").attr("disabled",true); //按钮置为不可用
-					window.location.href= "${basePath}assistantView.do?matchFlag=1";
+					//window.location.href= "${basePath}assistantView.do?matchFlag=1";
 			}else{
 				$("#submitForm").attr("disabled",false); //按钮置为可用
 				closediv('ajaxform');
-				alert(msg.info);
+				alert(data.msg);
 				
 			}
 				
@@ -87,29 +87,15 @@ $("#applicantFormSub").submit(function() {
 
 	function validation() {
 		//数据验证
-		var department = $("#department").val().trim(); //姓名
-		var remPhone = $("#remPhone").val().trim(); //姓名
 		var username = $("#username").val().trim(); //姓名
 		var age = Number($("#age").val().trim()); //年龄
 		var phone = $("#phone").val().trim(); //手机
 		var address = $("#address").val().trim(); //地址
 		var schoolName = $("#schoolName").val().trim();//学校名称
-		var education = $("#education").val();//学历
-		var schoolLevel = $("#schoolLevel").val();//学校等级
+		var degree = $("#degree").val();//学历
+		var schoolLevel = $("#origin").val();//学校等级
 		var remarks = $("#remarks").val().trim(); //预约数据
-		var regPhone = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-		if(department != null && department != 'undefind' && department != '' ) {
-			if(department.length > 30) {
-				errorshow($("#department"),'运营大区或部门超出长度');
-				$("#department").focus();
-				return false;
-			}
-		}
-		if(!regPhone.test(remPhone)){
-			errorshow($("#remPhone"),'输入合法的联系方式');
-			$("#remPhone").focus();
-			return false;
-		}
+		var regPhone = /^0?1[3|4|5|6|7|8|9][0-9]\d{8}$/;
 		if(username == '' || username == 'undefind') {
 			errorshow($("#username"),'请输入姓名');
 			$("#username").focus();
@@ -127,24 +113,24 @@ $("#applicantFormSub").submit(function() {
 			$("#phone").focus();
 			return false;
 		}
-		if(education == -1 || education == 'undefined') {
-			errorshow($("#education"),'请选择学历！');
-			$("#education").focus();
+		if(degree == -1 || degree == 'undefined') {
+			errorshow($("#degree"),'请选择学历！');
+			$("#degree").focus();
 			return false;
 		}
-		if(schoolLevel == -1 || schoolLevel == 'undefined') {
-			errorshow($("#schoolLevel"),'请选择学校级别！');
-			$("#schoolLevel").focus();
+		if(origin == -1 || origin == 'undefined') {
+			errorshow($("#origin"),'请选择渠道来源！');
+			$("#origin").focus();
 			return false;
 		}
 		
-		if(isblank(schoolName) || schoolName.length > 80) {
-			errorshow($("#schoolName"),'输入的学校名称为空或超过长度');
+		if(isblank(schoolName) || schoolName.length > 80 || schoolName.length < 4) {
+			errorshow($("#schoolName"),'输入的学校名称为5-80个字长度长度');
 			$("#schoolName").focus();
 			return false;
 		}
-		if(isblank(address) || address.length > 80) {
-			errorshow($("#address"),'输入的现居地址为空或超过长度');
+		if(isblank(address) || address.length > 80 ||address.length < 4) {
+			errorshow($("#address"),'输入的现居地址为5-80个字长度');
 			$("#address").focus();
 			return false;
 		}
@@ -212,7 +198,7 @@ $("#applicantFormSub").submit(function() {
     <!-- head end -->
     <!-- mid start -->
     <div class="mid">
-        <form action="${basePath}createCandidatesSave.do" id="applicantFormSub" name="applicantForm" method="post" >
+        <form action="${pageContext.request.contextPath}/weixin/api/add" id="applicantFormSub" name="applicantForm" method="post" >
         	<div class="orderul">
                 <ul>
                 <!--  
@@ -234,19 +220,19 @@ $("#applicantFormSub").submit(function() {
                       <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>姓名:</div>
                         <div class="orderullirw">
-                            <input id="username" name="name"  maxlength="20" type="text" class="contarl-input" placeholder="请输入姓名" />
+                            <input id="username" name="pst.name"  maxlength="20" type="text" class="contarl-input" placeholder="请输入姓名" />
                         </div>
                     </li>
                    <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>联系方式:</div>
                         <div class="orderullirw">
-                            <input id="phone" name="phone" type="text" required="required" class="contarl-input" placeholder="请输入联系方式(手机号)" value=""/>
+                            <input id="phone" name="pst.phone" type="text" required="required" class="contarl-input" placeholder="请输入联系方式(手机号)" value=""/>
                         </div>
                     </li>
                     <li class="orderullih">
                         <div class="orderullilw"><em class="red"></em>年龄:</div>
                         <div class="orderullirw">
-                            <input id="age" name="age" type="number" required="required" min="14" max="65" class="contarl-input" placeholder="请输入年龄" value=""/>
+                            <input id="age" name="pst.age" type="number" required="required" min="14" max="65" class="contarl-input" placeholder="请输入年龄" value=""/>
                         </div>
                     </li>
                     <!-- 
@@ -268,10 +254,10 @@ $("#applicantFormSub").submit(function() {
                     <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>学历:</div>
                         <div class="orderullirw">
-                         <select class="shortselect" name="education" id="education">
+                         <select class="shortselect" name="pst.degree" id="degree">
                          	  <option value="-1">请选择学历</option>
-							  <c:forEach items="${educationLevel}" var="area" varStatus="status">
-								 	 <option value="${area.code}">${area.name}</option>
+							  <c:forEach items="${degreeList}" var="degree" varStatus="status">
+								 	 <option value="${degree.code}">${degree.name}</option>
                                </c:forEach>
 						</select>
                         </div>
@@ -279,17 +265,17 @@ $("#applicantFormSub").submit(function() {
                     <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>毕业学校:</div>
                         <div class="orderullirw">
-                            <input id="schoolName" name="schoolName" required="required" type="text" class="contarl-input" placeholder="填写最高学历毕业学校" value=""/>
+                            <input id="schoolName" name="pst.school_name" required="required" type="text" class="contarl-input" placeholder="填写最高学历毕业学校" value=""/>
                         </div>
                     </li>
                     <div class="headinfo">其他信息</div>
                     <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>渠道来源:</div>
                         <div class="orderullirw">
-                        <select class="shortselect" name="schoolLevel" id="schoolLevel">
+                        <select class="shortselect" name="pst.origin" id="origin">
                         	  <option value="-1">请选择渠道来源</option>
-							  <c:forEach items="${schoolLevels}" var="level" varStatus="status">
-								 	 <option value="${level.code}" >${level.name}</option>
+							  <c:forEach items="${originList}" var="origin" varStatus="status">
+								 	 <option value="${origin.code}" >${origin.name}</option>
                                </c:forEach>
 						</select>
                         </div>
@@ -297,13 +283,13 @@ $("#applicantFormSub").submit(function() {
                     <li class="orderullih">
                         <div class="orderullilw"><em class="red">*</em>现居住地:</div>
                         <div class="orderullirw">
-                            <input id="address" name="address" type="text" required="required" class="contarl-input" placeholder="请输入现居住地" value=""/>
+                            <input id="address" name="pst.address" type="text" required="required" class="contarl-input" placeholder="请输入现居住地" value=""/>
                         </div>
                     </li>
                     <li class="orderullih"  style="height: 105px;">
                         <div class="orderullilw"><em class="red">*</em>备注:</div>
                         <div class="orderullih" style="height: 105px;">
-                            <textarea rows="4" style="width: 100%;resize:none" required="required" id="remarks" name="remarks" class="contarl-input" placeholder="请输入预可面试时间等" ></textarea>
+                            <textarea rows="4" style="width: 100%;resize:none" required="required" id="remarks" name="pst.remarks" class="contarl-input" placeholder="请输入预可面试时间等" ></textarea>
                         </div>
                     </li>
                 </ul>

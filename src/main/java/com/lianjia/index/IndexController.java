@@ -11,16 +11,6 @@ public class IndexController extends Controller
 		render("/login.jsp");
 	}
 	
-	public void weixin() 
-	{
-		render("/weixin/login.jsp");
-	}
-	
-	public void weixinIndex() 
-	{
-		render("/weixin/login.jsp");
-	}
-	
 	
 	public void TextUser() 
 	{

@@ -117,15 +117,15 @@ public class UserVerificationServer {
 					if(attributeStr.indexOf("telephoneNumber")>0){
 						mobile= (String) attributes.get("telephoneNumber").get();
 					}
-					Agent employees=new Agent();
-						employees.set("pager", pager)
+					Agent agent=new Agent();
+						agent.set("pager", pager)
 					 .set("mail", mail)
 					 .set("name", name)
 					 .set("title", title)
 					 .set("department", department)
 					 .set("sAMAccountName",sAMAccountName)
 					 .set("mobile", mobile);
-					return employees;
+					return agent;
 				}
 			}
 		} catch (Exception e) {
@@ -200,16 +200,16 @@ public class UserVerificationServer {
 				if(attributeStr.indexOf("telephoneNumber")>0){
 					mobile= (String) attributes.get("telephoneNumber").get();
 				}
-				Agent user = new Agent();
+				Agent agent = new Agent();
 				//获取到相关信息并保存数据
-				user.set("pager", pager)
+				agent.set("pager", pager)
 				 .set("mail", mail)
 				 .set("name", name)
 				 .set("title", title)
 				 .set("department", department)
 				 .set("sAMAccountName",sAMAccountName)
 				 .set("mobile", mobile);
-				return user;
+				return agent;
 			}
 		} catch (Exception e) {
 			return null;
