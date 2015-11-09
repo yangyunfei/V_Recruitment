@@ -8,6 +8,7 @@ import com.jfinal.aop.Clear;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MenuApi;
 import com.jfinal.weixin.sdk.api.UserApi;
@@ -135,8 +136,7 @@ public class WeixinApiController extends ApiController{
         // 配置微信 API 相关常量
         ac.setToken(PropKit.get("token"));
         ac.setAppId(PropKit.get("appId"));
-        ac.setAppSecret(PropKit.get("appSecret"));
-        
+        ac.setAppSecret(PropKit.get("appSecret"));        
 
         /**
          *  是否对消息进行加密，对应于微信平台的消息加解密方式：

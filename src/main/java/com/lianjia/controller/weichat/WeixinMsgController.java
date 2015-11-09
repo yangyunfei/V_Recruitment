@@ -114,7 +114,7 @@ public class WeixinMsgController extends MsgController
 
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
         OutTextMsg outMsg = new OutTextMsg(inFollowEvent);
-        outMsg.setContent("感谢关注 JFinal Weixin 极速开发，为您节约更多时间，去陪恋人、家人和朋友 :) \n\n\n " + helpStr);
+        outMsg.setContent("感谢关注 链家V服务，为您提供更好更优质的服务 :) \n\n\n " + helpStr);
         // 如果为取消关注事件，将无法接收到传回的信息
         render(outMsg);
     }

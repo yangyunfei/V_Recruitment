@@ -8,10 +8,12 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.api.AccessToken;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.SnsAccessTokenApi;
 import com.lianjia.common.Constants;
 import com.lianjia.model.WechatUser;
 import com.lianjia.server.WexinUserServer;
+import com.jfinal.weixin.sdk.jfinal.ApiController;
 
 
 
@@ -33,6 +35,8 @@ public class WeixinSessionInterceptor implements Interceptor
 			return;
 		}		
 		try {
+			ApiController apiController = (ApiController)controller;
+			ApiConfigKit.setThreadLocalApiConfig(apiController.getApiConfig());
 			AccessToken accessToken = SnsAccessTokenApi.getAccessToken(code);			
 			String openid = (String) JSONObject.fromObject(accessToken.getJson()).get("openid");
 			if(StrKit.isBlank(openid))
