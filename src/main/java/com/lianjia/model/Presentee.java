@@ -8,4 +8,19 @@ public class Presentee extends Model<Presentee>
 	
 	public static final Presentee dao = new Presentee();
 
+	public void toDetailshow() 
+	{
+		
+		
+	}
+
+	/**
+	 * 该人员已被有人处理
+	 * @return
+	 */
+	public boolean validateHasHandleman() 
+	{	
+		return getLong("handleman").longValue() == 0L ? false : true;
+	}
+
 }

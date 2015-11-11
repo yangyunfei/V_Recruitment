@@ -11,7 +11,7 @@ public class Recruit extends Model<Recruit>
 	public boolean validateBelongtoUser(User user)
 	{
 		//该招聘任务所属人
-		long handling_id = getLong("user_id").longValue();
+		long handling_id = getLong("handleman").longValue();
 		long user_id = user.getLong("id").longValue();
 		//该发起请求人
 		return handling_id == user_id ? true : false ;

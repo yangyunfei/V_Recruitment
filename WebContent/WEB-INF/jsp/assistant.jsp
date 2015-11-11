@@ -6,6 +6,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	basePath = basePath + "weixin" + "/";
 %>
 <!DOCTYPE html>
 <html>
@@ -14,10 +15,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <title>应聘者列表</title>
-<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath %>style/style.css" />
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="js/job.js"></script>
-<script type="text/javascript" src="js/loading.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/job.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/loading.js"></script>
 <script type="text/javascript">
 $(function(){
 	//判断当前页数和总页数是否相等 -- 相等则隐藏加载更多
@@ -90,7 +91,8 @@ $(function(){
 	});
 	
 	$(".iconsLeft").click(function(){
-		window.location.href="${basePath}trunApplicantPage.do";	
+		//window.location.href="${basePath}trunApplicantPage.do";	
+		window.location.href="${pageContext.request.contextPath}/weixin/api/toadd"
 	});
 	
 });
@@ -157,7 +159,8 @@ $(function(){
     	<input type="hidden" id="result" name="result" value="${result}">
             <c:if test="${list != null}">
             	<c:forEach var="app" items="${list}">
-            	<div>${app.recommendedCode}</div>
+            	<div>${app.name}</div>
+            	<div>${app.phone}</div>
             	<c:if test="${app.matchingStateId == 1}">
             		<a href="${basePath}turnUpdateCandidates.do?applicantId=${app.applicantId}" class="ls lshight">
             		<span>${app.showInfo}</span>

@@ -30,6 +30,7 @@ import com.lianjia.model.Agent;
 import com.lianjia.model.BusinessArea;
 import com.lianjia.model.Module;
 import com.lianjia.model.Presentee;
+import com.lianjia.model.RecruitRecord;
 import com.lianjia.model.Recruit;
 import com.lianjia.model.Remark;
 import com.lianjia.model.Role;
@@ -91,6 +92,7 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		arp.addMapping("table_code", TableCode.class);
 		arp.addMapping("business_area", BusinessArea.class);
 		arp.addMapping("recruit", Recruit.class);
+		arp.addMapping("recruit_record",RecruitRecord.class);
 		arp.addMapping("v_recruit",V_Recruit.class);
 		arp.addMapping("v_source",V_Source.class);
 		

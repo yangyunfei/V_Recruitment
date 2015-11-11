@@ -60,7 +60,7 @@ $("#applicantFormSub").submit(function() {
 			if (data.success){
 					alert(data.msg);
 					$("#submitForm").attr("disabled",true); //按钮置为不可用
-					//window.location.href= "${basePath}assistantView.do?matchFlag=1";
+					window.location.href= "${pageContext.request.contextPath}/weixin/api/presenteeList";
 			}else{
 				$("#submitForm").attr("disabled",false); //按钮置为可用
 				closediv('ajaxform');

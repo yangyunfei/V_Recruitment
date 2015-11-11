@@ -18,6 +18,7 @@ import com.lianjia.model.Recruit;
 import com.lianjia.model.TableCode;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
+import com.lianjia.server.SourceServer;
 
 @Before(AuthenticationInterceptor.class)
 public class SourceController  extends Controller 
@@ -39,15 +40,20 @@ public class SourceController  extends Controller
 	public void accept()
 	{
 		long pst_id = getParaToLong(0);
-		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
-		Recruit recruit = new Recruit();
-		recruit.set("user_id", user.getLong("id"));
-		recruit.set("presentee_id", pst_id);
-		recruit.set("state", 1);
-		recruit.set("createtime", new Date());
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
 		Presentee pst = Presentee.dao.findById(pst_id);
-		pst.set("handleman", user.getLong("id"));
-		if(recruit.save()&&pst.update())
+		if(user.validateHasAttachMaxNum())
+		{
+			renderJson(new ResponseResult(false,"你收藏数量已到达上限,请尽快处理手头任务！",null));
+			return;
+		};
+		if(pst.validateHasHandleman())
+		{
+			renderJson(new ResponseResult(false,"该人员已不属于你,请刷新！",null));
+			return;
+		};	
+		boolean result = SourceServer.server.accept(pst,user);
+		if(result)
 		{
 			renderJson(new ResponseResult(true,"成功",null));
 		}

@@ -29,7 +29,7 @@
 				.datagrid(
 						{
 							url : '${pageContext.request.contextPath}/jf/recruitController/dataGrid',
-							queryParams: {"sec.state.i.eq": 1 ,"sec.user_id.l.eq": '${user.id}'},
+							queryParams: {"sec.state.i.eq": 1 ,"sec.handleman.l.eq": '${user.id}'},
 							fit : true,
 							fitColumns : false,
 							border : false,
@@ -483,7 +483,7 @@
 	}
 	function cleanFun() {
 		$('#searchTable input').val('');
-		dataGrid.datagrid('load', {"sec.state.i.eq": 1 ,"sec.user_id.l.eq": '${user.id}'});
+		dataGrid.datagrid('load', {"sec.state.i.eq": 1 ,"sec.handleman.l.eq": '${user.id}'});
 	}
 	function exportReport() {
 		var opt = dataGrid.datagrid('options');
@@ -601,7 +601,7 @@
 					</tr> -->
 				</table>
 				<input name="sec.state.i.eq" type="hidden" value="1" />
-				<input name="sec.user_id.l.eq" type="hidden" value="${user.id}" />			
+				<input name="sec.handleman.l.eq" type="hidden" value="${user.id}" />			
 			</form>
 		</div>
 		<div data-options="region:'center',border:false">

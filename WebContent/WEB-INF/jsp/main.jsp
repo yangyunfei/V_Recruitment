@@ -22,8 +22,9 @@
 $(function(){
 	//判断当前页数和总页数是否相等 -- 相等则隐藏加载更多
 	$(function(){
-		$("#jl").click(function(){
-			window.location.href="loginTurnXq.do";
+		$("#my").click(function(){
+			//window.location.href="loginTurnXq.do";
+			window.location.href="${pageContext.request.contextPath}/weixin/api/presenteeList"
 		});	
 		
 		$("#zl").click(function(){
@@ -87,6 +88,7 @@ function toLogin()
     <div class="mid" style="padding-top: 40%"><div>
     <!-- <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="jl" type="button" value="我要招人" /></div></div>-->
     <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="zl" type="button" value="我要推荐" /></div></div>
+    <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="my" type="button" value="我的录入" /></div></div>
    	</div>
    </div>
     <!-- mid end -->

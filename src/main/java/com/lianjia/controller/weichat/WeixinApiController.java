@@ -3,10 +3,12 @@ package com.lianjia.controller.weichat;
 import java.util.Date;
 import java.util.List;
 
+
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -104,6 +106,20 @@ public class WeixinApiController extends ApiController{
 		}
 	}
 	
+	public void presenteeList()
+	{
+		int pagenum = this.getParaToInt(Constants.PAGENUM,Constants.Page_Num_Default);
+		int pagesize =  getParaToInt(Constants.PAGESIZE,Constants.PAGESIZE_DEFAULT) ;
+		WechatUser wechatUser = (WechatUser)getSessionAttr(Constants.Controller_SESSION_WeChat_User_Key);
+		Page<Presentee> paginate = Presentee.dao.paginate(pagenum, pagesize, "SELECT * ", "FROM presentee WHERE recordman = ? ORDER BY createtime DESC",(Object)wechatUser.get("pager"));
+		List<Presentee> list = paginate.getList();
+		for(Presentee pst : list)
+		{
+			pst.toDetailshow();
+		}
+		setAttr("list", list);
+		render("/WEB-INF/jsp/assistant.jsp");
+	}
 	
 	
 	public void index() {

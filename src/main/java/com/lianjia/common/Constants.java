@@ -41,38 +41,57 @@ public class Constants {
 	
 	
 	/**
-	 * 待处理
+	 * 待处理 1 
 	 */
 	public static final int STATE_SUSPENDING = 1;
 	/**
-	 * 待初试
+	 * 待初试 2
 	 */
 	public static final int STATE_WAIT_FIRSTINTERVIEW = 2;
 	/**
-	 * 待复试
+	 * 待复试 3
 	 */
 	public static final int STATE_WAIT_SECONDINTERVIEW = 3;
 	/**
-	 * 待培训
+	 * 待培训 4
 	 */
 	public static final int STATE_WAIT_TRAIN = 4;
 	/**
-	 * 待入职
+	 * 待入职 5
 	 */
 	public static final int STATE_WAIT_ENTRANT = 5;
 	
 	/**
-	 * 已入职
+	 * 已入职 6
 	 */
 	public static final int STATE_HAS_ENTRANT = 6;
-	/**
-	 * 已失效
+	/** 
+	 * 已失效 -1
 	 */
 	public static final int STATE_INVALID = -1;
 	
 	
 	
-	public static final String RECRUIT_CLICK_EVENTKEY  = "http://spartacus.pagekite.me/V_Recruitment/weixin/presenteeController/recruit";
+	//public static final String RECRUIT_CLICK_EVENTKEY  = "http://spartacus.pagekite.me/V_Recruitment/weixin/presenteeController/recruit";
+	
+	public static final String Record_accept = "该人员被收藏";
+	
+	public static final String Record_joinInterview = "初次确定面试时间";
+	
+	public static final String Record_EditInterview = "修改面试时间";
+	
+	public static final String Record_BreakOff = "初试取消";
+	
+	public static final String Record_Nopass = "初试没有通过";
+	
+	public static final String Record_Pass = "初试通过";
+
+	public static final String Record_NoComeInterview = "没有来参加初试";
+
+
+	public static final String Record_NotTrain = "没有参加培训";
+	
+	
 	
 
 }
