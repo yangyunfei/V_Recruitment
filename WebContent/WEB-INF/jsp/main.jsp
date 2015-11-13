@@ -88,7 +88,7 @@ function toLogin()
     <div class="mid" style="padding-top: 40%"><div>
     <!-- <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="jl" type="button" value="我要招人" /></div></div>-->
     <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="zl" type="button" value="我要推荐" /></div></div>
-    <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="my" type="button" value="我的录入" /></div></div>
+    <!-- <div class="btn" id="clickMore"><div class="loginbtn" style="width: 85%;margin:0 auto"><input  id="my" type="button" value="我的录入" /></div></div> -->
    	</div>
    </div>
     <!-- mid end -->

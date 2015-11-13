@@ -48,8 +48,8 @@ public class LoginController extends Controller
 		String loginName = getPara("pager");
 		String password = getPara("password");
 		String openid = getPara("openid");
-		//Agent agent = UserVerificationServer.validate(loginName,password);
-		Agent agent = Agent.dao.findById("20127268");
+		Agent agent = UserVerificationServer.validate(loginName,password);
+		//Agent agent = Agent.dao.findById("20127268");
 		//帐号密码错误或失效
 		if(null == agent)
 		{

@@ -79,7 +79,7 @@ public class WeixinApiController extends ApiController{
 	{
 		ResponseResult result= new ResponseResult(true, "保存成功", null);
 		Presentee presentee = getModel(Presentee.class, "pst");
-		Presentee pst = Presentee.dao.findFirst("SELECT * FROM presentee WHERE phone = ?",presentee.get("phone"));
+		Presentee pst = Presentee.dao.findFirst("SELECT * FROM presentee WHERE phone = ?",presentee.getStr("phone"));
 		if(null != pst)
 		{
 			result.setSuccess(false);

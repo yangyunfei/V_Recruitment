@@ -17,9 +17,9 @@ public class User extends Model<User> {
 	 * @return
 	 */
 	public boolean validateHasAttachMaxNum() {
-		User user = dao.findById(get("id"));
+		User user = dao.findById(getLong("id"));
 		int maxNum = user.getInt("handleMaxNum").intValue();
-		Long userCount = Db.queryLong("select count(*) from recruit where state = "+ Constants.STATE_SUSPENDING +" AND handleman =  ?", get("id"));
+		Long userCount = Db.queryLong("select count(*) from recruit where state = "+ Constants.STATE_SUSPENDING +" AND handleman =  ?", getLong("id"));
 		return userCount.longValue()>=maxNum ? true : false;
 	}
 }

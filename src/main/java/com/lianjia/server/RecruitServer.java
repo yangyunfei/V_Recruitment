@@ -6,6 +6,7 @@ import java.util.Date;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
+import com.lianjia.common.CancleEnum;
 import com.lianjia.common.Constants;
 import com.lianjia.model.Presentee;
 import com.lianjia.model.Recruit;
@@ -51,6 +52,11 @@ public class RecruitServer
 
 	public boolean breakOff(Recruit recruit, int cancle) 
 	{
+		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
+		if (null == cancleEnum || (!Constants.Cancle_type_notInterview.equals(cancleEnum.getGroup())))
+		{
+			return false;
+		}
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("cancle", cancle);
@@ -69,18 +75,9 @@ public class RecruitServer
 		record.set("cancle", cancle);	
 		record.set("createtime", date);		
 		
-		//放入历史
-		if(1 ==cancle||cancle==3||cancle==6||cancle==7)
-		{
-			pst.set("handleman", 0);
-			pst.set("weight", 1);
-			pst.set("lastUpdateTime", new Date());
-		}
-		else
-		{
-			pst.set("handleman", 0);
-			pst.set("lastUpdateTime", new Date());
-		}
+		pst.set("handleman", 0);
+		pst.set("weight", cancleEnum.getWeight());
+		pst.set("lastUpdateTime", new Date());
 		
 		boolean tx = Db.tx(new IAtom() 
 		{			
@@ -119,6 +116,11 @@ public class RecruitServer
 	}
 
 	public boolean getOutTrain(Recruit recruit, Integer cancle) {
+		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
+		if(null == cancleEnum || (!Constants.Cancle_type_noPassTrain.equals(cancleEnum.getGroup())))
+		{
+			return false;
+		}
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("cancle", cancle);
 		recruit.set("lastUpdateTime", new Date());
@@ -128,7 +130,7 @@ public class RecruitServer
 		//放入历史
 		
 		pst.set("handleman", 0);
-		pst.set("weight", 1);
+		pst.set("weight", cancleEnum.getWeight());
 		pst.set("lastUpdateTime", new Date());
 		
 		
@@ -186,14 +188,14 @@ public class RecruitServer
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
-		recruit.set("cancle", 8);
+		recruit.set("cancle", CancleEnum.NotPassInterview.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
-		pst.set("weight", 1);
-		pst.set("cancle", 8);	
+		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
+		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
 		
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
@@ -218,14 +220,14 @@ public class RecruitServer
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
-		recruit.set("cancle", 9);
+		recruit.set("cancle", CancleEnum.NoComeInterview.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
-		pst.set("weight", 0);
-		pst.set("cancle", 9);	
+		pst.set("weight", CancleEnum.NoComeInterview.getWeight());
+		pst.set("cancle", CancleEnum.NoComeInterview.getCancleCode());	
 		
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
@@ -255,14 +257,14 @@ public class RecruitServer
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", new Date());
-		recruit.set("cancle", 10);
+		recruit.set("cancle", CancleEnum.NotTrain.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", new Date());
 		pst.set("handleman", 0);
-		pst.set("weight", 0);
-		pst.set("cancle", 10);	
+		pst.set("weight", CancleEnum.NotTrain.getWeight());
+		pst.set("cancle", CancleEnum.NotTrain.getCancleCode());	
 		
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));

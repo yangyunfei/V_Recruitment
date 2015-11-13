@@ -7,6 +7,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.lianjia.common.CancleEnum;
 import com.lianjia.common.Constants;
 import com.lianjia.common.DataGridUtil;
 import com.lianjia.common.ResponseResult;
@@ -144,6 +145,12 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"请选择原因！",null));
 			return;
 		};
+		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
+		if(null == cancleEnum || (!Constants.Cancle_type_notInterview.equals(cancleEnum.getGroup())))
+		{
+			renderJson(new ResponseResult(false,"原因编号错误，不匹配当前招聘状态!！",null));
+			return;
+		}
 		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
 		if(!recruit.validateBelongtoUser(user))
 		{
@@ -466,6 +473,12 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"请选择原因！",null));
 			return;
 		};
+		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
+		if(null == cancleEnum || (!Constants.Cancle_type_noPassTrain.equals(cancleEnum.getGroup())))
+		{
+			renderJson(new ResponseResult(false,"原因编号错误，不匹配当前招聘状态!！",null));
+			return;
+		}
 		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
 		if(!recruit.validateBelongtoUser(user))
 		{

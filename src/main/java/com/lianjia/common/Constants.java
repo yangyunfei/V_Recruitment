@@ -92,6 +92,15 @@ public class Constants {
 	public static final String Record_NotTrain = "没有参加培训";
 	
 	
+	public static final String Cancle_type_notInterview = "notInterview";
+	public static final String Cancle_type_noPassInterview = "noPassInterview";
+	public static final String Cancle_type_NoComeInterview = "NoComeInterview";
+	public static final String Cancle_type_notTrain = "notTrain";
+	public static final String Cancle_type_noPassTrain = "noPassTrain";
+	public static final String Cancle_type_noEntry = "noEntry";
+	
+
+	
 	
 
 }
