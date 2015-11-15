@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.lianjia.common.CancleEnum;
@@ -452,7 +453,7 @@ public class RecruitController extends Controller
 		};
 		if(!recruit.validateState(Constants.STATE_WAIT_TRAIN))
 		{
-			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
+			renderJson(new ResponseResult(false,"该任务不是待培训状态，请刷新页面！",null));
 			return;
 		};
 		setAttr("recruit", recruit);
@@ -501,9 +502,72 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"失败",null));
 		}
 	}
-	public void view()
+	
+	public void toaddProperty()
 	{
 	   
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
+			return;
+		};
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		setAttr("rt_id", rt_id);
+		setAttr("presentee", pst);		
+		render("/vzp/recruit/presenteeAddProperty.jsp");
+	}
+	
+	public void addProperty()
+	{
+	   
+		long rt_id = getParaToLong("rt_id");		
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		String idcard = getPara("idcard");
+		String school_name = getPara("school_name");
+		String school_level = getPara("school_level");
+		String address = getPara("address");
+		String remarks = getPara("remarks");
+		if(!StrKit.notBlank(idcard,school_name,school_level,address,remarks))
+		{
+			renderJson(new ResponseResult(false,"修改信息不全！",null));
+			return;
+		}
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_FIRSTINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
+			return;
+		};
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("idcard", idcard);
+		pst.set("school_name", school_name);
+		pst.set("school_level", school_level);
+		pst.set("address", address);
+		pst.set("remarks", remarks);
+		pst.set("lastUpdateTime", new Date());			
+		if(pst.update())
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
 		
 	}
 }

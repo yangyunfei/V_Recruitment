@@ -12,16 +12,6 @@
 		$.canEdit = true;
 	</script>
 </c:if>
-<c:if test="${fn:contains(modules, '/jf/cusController/delete')}">
-	<script type="text/javascript">
-		$.canDelete = true;
-	</script>
-</c:if>
-<c:if test="${fn:contains(modules, '/jf/cusController/add')}">
-	<script type="text/javascript">
-		$.canAdd = true;
-	</script>
-</c:if>
 <script type="text/javascript">
 	var dataGrid;
 	var state = '${state}';
@@ -694,6 +684,9 @@
 							class="span2" /></td>						
 						<th>求职者电话</th>
 						<td><input name="sec.phone.s.eq" placeholder="请输入电话号码"
+							class="span2" /></td>
+						<th>推荐人</th>
+						<td><input name="sec.recordmanname.s.eq" placeholder="请输入推荐人姓名"
 							class="span2" /></td>
 					</tr>
 

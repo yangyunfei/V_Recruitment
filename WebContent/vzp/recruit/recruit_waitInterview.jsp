@@ -12,16 +12,6 @@
 		$.canEdit = true;
 	</script>
 </c:if>
-<c:if test="${fn:contains(modules, '/jf/cusController/delete')}">
-	<script type="text/javascript">
-		$.canDelete = true;
-	</script>
-</c:if>
-<c:if test="${fn:contains(modules, '/jf/cusController/add')}">
-	<script type="text/javascript">
-		$.canAdd = true;
-	</script>
-</c:if>
 <script type="text/javascript">
 	var dataGrid;
 	var state = '${state}';
@@ -199,6 +189,11 @@
 												str += $
 												.formatString(
 														'<a href="javascript:void(0);" onclick="noComeInterview(\'{0}\');" >未参加面试</a>',
+														row.id);
+												str += "&nbsp;&nbsp;";
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="addProperty(\'{0}\');" >完善信息</a>',
 														row.id);
 											}																					
 
@@ -614,6 +609,24 @@
 												}, 'JSON');
 							}
 						});
+	};
+	
+	function addProperty(id)
+	{
+		parent.$.modalDialog({
+			title : '面试时间',
+			width : 400,
+			height : 200,
+			href : '${pageContext.request.contextPath}/jf/recruitController/toaddProperty/'+id,
+			buttons : [ {
+				text : '提交',
+				handler : function() {
+					parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+					var f = parent.$.modalDialog.handler.find('#form');
+					f.submit();
+				}
+			} ]
+		});
 	}
 </script>
 </head>
@@ -631,57 +644,10 @@
 						<th>求职者电话</th>
 						<td><input name="sec.phone.s.eq" placeholder="请输入电话号码"
 							class="span2" /></td>
-					</tr>
-
-					<!--  
-					<tr>
-						<th>面积范围</th>
-						<td><input class="span2" name="sec.area_min.i.ge" /> 至<input
-							class="span2" name="sec.area_max.i.le" /> （平米）</td>
-						<th>租金范围</th>
-						<td><input class="span2" name="sec.rent_min.i.ge" /> 至<input
-							class="span2" name="sec.rent_max.i.le" /> （元）</td>
-					</tr>
-
-
-					<tr>
-
-						<th>目标行政区：</th>
-						<td><input class="easyui-combobox"
-							name="sec.target_area.s.eq" id="xzq"
-							data-options="
-                    method:'get',
-                    valueField:'id',
-                    textField:'name',
-                    multiple:false,
-                    
-            ">
-						</td>
-
-						<th>目标商圈：</th>
-						<td><input class="easyui-combobox" name="" id="sq"
-							data-options="
-            valueField:'id',
-            textField:'name',
-            ">
-						</td>
-						<th>客户行业：</th>
-						<td><input class="easyui-combotree" id="cushy"
-							name="sec.industry.s.eq"
-							data-options="
-					                            method:'get'"></td>
-
-					</tr>
--->
-
-					<!-- <tr>
-						<th>创建时间</th>
-						<td><input class="span2" name="createdatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="createdatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td>
-					</tr>
-					<tr>
-						<th>最后修改时间</th>
-						<td><input class="span2" name="modifydatetimeStart" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />至<input class="span2" name="modifydatetimeEnd" placeholder="点击选择时间" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" /></td>
-					</tr> -->
+						<th>推荐人</th>
+						<td><input name="sec.recordmanname.s.eq" placeholder="请输入推荐人姓名"
+							class="span2" /></td>
+					</tr>					
 				</table>
 				<input name="sec.state.i.eq" type="hidden" value="2" />
 				<input name="sec.handleman.l.eq" type="hidden" value="${user.id}" />	
