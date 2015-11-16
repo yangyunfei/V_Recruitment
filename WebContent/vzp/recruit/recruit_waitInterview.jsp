@@ -173,8 +173,8 @@
 											{
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="pass(\'{0}\');" >通过</a>',
-														row.id);
+														'<a href="javascript:void(0);" onclick="pass(\'{0}\',\'{1}\');" >通过</a>',
+														row.id,row.idcard);
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
@@ -484,8 +484,13 @@
 				sec, 'POST');
 	}
 
-	function pass(id)
+	function pass(id,idcard)
 	{
+		if("" == idcard || "null" == idcard)
+		{
+			alert("请先完善信息！");
+			return;
+		}
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
 		parent.$.messager
 				.confirm(
@@ -614,9 +619,9 @@
 	function addProperty(id)
 	{
 		parent.$.modalDialog({
-			title : '面试时间',
-			width : 400,
-			height : 200,
+			title : '完善信息',
+			width : 800,
+			height : 600,
 			href : '${pageContext.request.contextPath}/jf/recruitController/toaddProperty/'+id,
 			buttons : [ {
 				text : '提交',

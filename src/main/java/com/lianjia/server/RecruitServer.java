@@ -27,7 +27,7 @@ public class RecruitServer
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_FIRSTINTERVIEW);
-		pst.set("lastUpdateTime", new Date());
+		pst.set("lastUpdateTime", date);
 		
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
@@ -65,6 +65,8 @@ public class RecruitServer
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("cancle", cancle);
 		pst.set("lastUpdateTime", date);
+		pst.set("handleman", 0);
+		pst.set("weight", cancleEnum.getWeight());
 		
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
@@ -74,11 +76,7 @@ public class RecruitServer
 		record.set("description", Constants.Record_BreakOff);
 		record.set("cancle", cancle);	
 		record.set("createtime", date);		
-		
-		pst.set("handleman", 0);
-		pst.set("weight", cancleEnum.getWeight());
-		pst.set("lastUpdateTime", new Date());
-		
+			
 		boolean tx = Db.tx(new IAtom() 
 		{			
 			@Override
@@ -121,17 +119,25 @@ public class RecruitServer
 		{
 			return false;
 		}
+		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("cancle", cancle);
-		recruit.set("lastUpdateTime", new Date());
+		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
-		pst.set("cancle", cancle);
-		//放入历史
-		
+		pst.set("cancle", cancle);		
 		pst.set("handleman", 0);
 		pst.set("weight", cancleEnum.getWeight());
-		pst.set("lastUpdateTime", new Date());
+		pst.set("lastUpdateTime", date);
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", recruit.get("presentee_id"));
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_INVALID);
+		record.set("cancle", cancle);
+		record.set("description", Constants.Record_GetOutTrain);
+		record.set("createtime", date);		
 		
 		
 		boolean tx = Db.tx(new IAtom() 
@@ -139,7 +145,7 @@ public class RecruitServer
 			@Override
 			public boolean run() throws SQLException 
 			{				
-				return recruit.update()&&pst.update();
+				return recruit.update()&&pst.update()&&record.save();
 			}
 		});
 		
@@ -200,6 +206,7 @@ public class RecruitServer
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
+		record.set("cancle", CancleEnum.NotPassInterview.getCancleCode());
 		record.set("handleman", recruit.get("handleman"));
 		record.set("state", Constants.STATE_INVALID);
 		record.set("description", Constants.Record_Nopass);
@@ -232,6 +239,7 @@ public class RecruitServer
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
+		record.set("cancle", CancleEnum.NoComeInterview.getCancleCode());	
 		record.set("handleman", recruit.get("handleman"));
 		record.set("state", Constants.STATE_INVALID);
 		record.set("description", Constants.Record_NoComeInterview);
@@ -269,6 +277,7 @@ public class RecruitServer
 		RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
+		record.set("cancle", CancleEnum.NotTrain.getCancleCode());	
 		record.set("handleman", recruit.get("handleman"));
 		record.set("state", Constants.STATE_INVALID);
 		record.set("description", Constants.Record_NotTrain);
@@ -285,20 +294,88 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean passTrain(Recruit recruit) {
+	public boolean passTrain(Recruit recruit)
+	{
+		Date date = new Date();
 		recruit.set("state", Constants.STATE_WAIT_ENTRANT);
 		recruit.set("lastUpdateTime", new Date());
 		long pst_id = recruit.getLong("presentee_id");
 		Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_ENTRANT);
-		pst.set("lastUpdateTime", new Date());
+		pst.set("lastUpdateTime", date);
 
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", recruit.get("presentee_id"));
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_WAIT_ENTRANT);
+		record.set("description", Constants.Record_PassTrain);
+		record.set("createtime", date);		
+		
 		boolean tx = Db.tx(new IAtom() 
 		{			
 			@Override
 			public boolean run() throws SQLException 
 			{				
 				return recruit.update()&&pst.update();
+			}
+		});
+		return tx;
+	}
+
+	public boolean entry(Recruit recruit) {
+		Date date = new Date();
+		recruit.set("state", Constants.STATE_HAS_ENTRANT);
+		recruit.set("lastUpdateTime", date);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_HAS_ENTRANT);
+		pst.set("lastUpdateTime", date);
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", pst_id);
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_HAS_ENTRANT);
+		record.set("description", Constants.Record_Entry);
+		record.set("createtime", date);	
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update()&&record.save();
+			}
+		});
+		return tx;
+	}
+	
+	public boolean notEntry(Recruit recruit) {
+		Date date = new Date();
+		recruit.set("state", Constants.STATE_INVALID);
+		recruit.set("lastUpdateTime", date);
+		recruit.set("cancle", CancleEnum.NotEntry.getCancleCode());
+		
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_INVALID);
+		pst.set("lastUpdateTime", date);
+		pst.set("cancle", CancleEnum.NotEntry.getCancleCode());
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", pst_id);
+		record.set("cancle", CancleEnum.NotEntry.getCancleCode());
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_INVALID);
+		record.set("description", Constants.Record_NotEntry);
+		record.set("createtime", date);	
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update()&&record.save();
 			}
 		});
 		return tx;

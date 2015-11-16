@@ -49,6 +49,15 @@ public class RecruitController extends Controller
 		render("/vzp/recruit/recruit_handling.jsp");
 	}
 	
+	/**
+	 * 招聘初试通过后处理页面跳转
+	 */
+	public void manager_entried()
+	{
+		
+		render("/vzp/recruit/recruit_entried.jsp");
+	}
+	
 
 	/**
 	 * 添加面试时间页面跳转
@@ -536,7 +545,7 @@ public class RecruitController extends Controller
 		String school_level = getPara("school_level");
 		String address = getPara("address");
 		String remarks = getPara("remarks");
-		if(!StrKit.notBlank(idcard,school_name,school_level,address,remarks))
+		if(!StrKit.notBlank(idcard,school_name,school_level,address))
 		{
 			renderJson(new ResponseResult(false,"修改信息不全！",null));
 			return;
@@ -569,5 +578,36 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"失败",null));
 		}
 		
+	}
+	
+	/**
+	 * 入职
+	 */
+	public  void  entry()
+	{	
+		long rt_id = getParaToLong(0);
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_ENTRANT))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待入职状态，请刷新页面！",null));
+			return;
+		};
+		boolean result = RecruitServer.server.entry(recruit);
+
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
 	}
 }

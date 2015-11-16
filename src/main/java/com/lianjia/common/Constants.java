@@ -87,9 +87,16 @@ public class Constants {
 	public static final String Record_Pass = "初试通过";
 
 	public static final String Record_NoComeInterview = "没有来参加初试";
-
-
+	
 	public static final String Record_NotTrain = "没有参加培训";
+	
+	public static final String Record_GetOutTrain = "培训淘汰";
+	
+	public static final String Record_PassTrain = "通过培训";
+	
+	public static final String Record_Entry = "入职成功";
+	
+	public static final String Record_NotEntry = "未入职";
 	
 	
 	public static final String Cancle_type_notInterview = "notInterview";

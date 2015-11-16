@@ -21,6 +21,10 @@
 					<td>${pt.phone}</td>
 				</tr>
 				<tr>
+					<td class="td1">身份证</td>
+					<td>${pt.idcard}</td>
+				</tr>
+				<tr>
 					<td class="td1">年龄</td>
 					<td>${pt.age}</td>
 				</tr>
