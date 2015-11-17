@@ -85,6 +85,12 @@ public class Constants {
 	public static final String Record_Nopass = "初试没有通过";
 	
 	public static final String Record_Pass = "初试通过";
+	
+	public static final String Record_PassEagleEye = "鹰眼系统通过";
+	
+	public static final String Record_NotPassEagleEye = "鹰眼系统没有通过";
+	
+	public static final String Record_NotComeEagleEye = "鹰眼系统复试没有来";
 
 	public static final String Record_NoComeInterview = "没有来参加初试";
 	

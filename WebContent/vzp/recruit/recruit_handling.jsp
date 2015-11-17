@@ -170,8 +170,18 @@
 											{
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="callOnEagleEye(\'{0}\');" >询问鹰眼</a>',
-														row.id);												
+														'<a href="javascript:void(0);" onclick="passEagleEye(\'{0}\');" >鹰眼系统通过</a>',
+														row.id);		
+												str += "&nbsp;&nbsp;";
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="notPassEagleEye(\'{0}\');" >未通过鹰眼系统</a>',
+														row.id);
+												str += "&nbsp;&nbsp;";
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="notComeEagleEye(\'{0}\');" >未参加鹰眼复试</a>',
+														row.id);		
 											}
 											else if(row.state == 4)
 											{											
@@ -182,12 +192,12 @@
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="passTrain(\'{0}\');" >通过</a>',
+														'<a href="javascript:void(0);" onclick="passTrain(\'{0}\');" >培训通过</a>',
 														row.id);
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="getOutTrain(\'{0}\');" >淘汰</a>',
+														'<a href="javascript:void(0);" onclick="getOutTrain(\'{0}\');" >培训淘汰</a>',
 														row.id);											
 											}
 											else if(row.state == 5)
@@ -195,7 +205,12 @@
 												str += $
 												.formatString(
 														'<a href="javascript:void(0);" onclick="noEntrant(\'{0}\');" >未入职</a>',
-														row.id);																	
+														row.id);	
+												str += "&nbsp;&nbsp;";
+												str += $
+												.formatString(
+														'<a href="javascript:void(0);" onclick="getOutTrain(\'{0}\');" >未入职</a>',
+														row.id);			
 											}										
 											return str;
 										}
@@ -486,13 +501,13 @@
 	}
 	
 	
-	function callOnEagleEye(id)
+	function passEagleEye(id)
 	{
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
 		parent.$.messager
 				.confirm(
 						'询问',
-						'您确定访问鹰眼 ？',
+						'您确定通过鹰眼系统 ？',
 						function(b) {
 							if (b) {
 								parent.$.messager.progress({
@@ -501,7 +516,95 @@
 								});
 								$
 										.post(
-												'${pageContext.request.contextPath}/jf/recruitController/callOnEagleEye/'+id,
+												'${pageContext.request.contextPath}/jf/recruitController/passEagleEye/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													else
+													{
+														parent.$.messager
+														.alert(
+																'提示',
+																result.msg,
+																'info');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	};
+	
+	function notPassEagleEye(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定通过鹰眼系统 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/notPassEagleEye/'+id,
+												{
+													
+												},
+												function(result) {
+													if (result.success) {
+														parent.$.messager
+																.alert(
+																		'提示',
+																		result.msg,
+																		'info');
+														dataGrid
+																.datagrid('reload');
+													}
+													else
+													{
+														parent.$.messager
+														.alert(
+																'提示',
+																result.msg,
+																'info');
+													}
+													parent.$.messager
+															.progress('close');
+												}, 'JSON');
+							}
+						});
+	};
+	
+	function notComeEagleEye(id)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent.$.messager
+				.confirm(
+						'询问',
+						'您确定通过鹰眼系统 ？',
+						function(b) {
+							if (b) {
+								parent.$.messager.progress({
+									title : '提示',
+									text : '数据处理中，请稍后....'
+								});
+								$
+										.post(
+												'${pageContext.request.contextPath}/jf/recruitController/notComeEagleEye/'+id,
 												{
 													
 												},
@@ -653,7 +756,7 @@
 								});
 								$
 										.post(
-												'${pageContext.request.contextPath}/jf/recruitController/passTrain/'+id,
+												'${pageContext.request.contextPath}/jf/recruitController/entry/'+id,
 												{
 													
 												},
@@ -696,7 +799,7 @@
 								});
 								$
 										.post(
-												'${pageContext.request.contextPath}/jf/recruitController/passTrain/'+id,
+												'${pageContext.request.contextPath}/jf/recruitController/notEntry/'+id,
 												{
 													
 												},

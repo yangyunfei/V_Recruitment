@@ -381,4 +381,91 @@ public class RecruitServer
 		return tx;
 	}
 
+	public boolean PassEagleEye(Recruit recruit) {
+		Date date = new Date();
+		recruit.set("state", Constants.STATE_WAIT_TRAIN);
+		recruit.set("lastUpdateTime", date);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_WAIT_TRAIN);
+		pst.set("lastUpdateTime", date);
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", pst_id);
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_WAIT_TRAIN);
+		record.set("description", Constants.Record_PassEagleEye);
+		record.set("createtime", date);	
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update()&&record.save();
+			}
+		});
+		return tx;
+	}
+
+	public boolean notPassEagleEye(Recruit recruit) {
+		Date date = new Date();
+		recruit.set("state", Constants.STATE_INVALID);
+		recruit.set("lastUpdateTime", date);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_INVALID);
+		pst.set("lastUpdateTime", date);
+		pst.set("handleman", 0);
+		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
+		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", pst_id);
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_INVALID);
+		record.set("description", Constants.Record_NotPassEagleEye);
+		record.set("createtime", date);	
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update()&&record.save();
+			}
+		});
+		return tx;
+	}
+
+	public boolean notComeEagleEye(Recruit recruit) {
+		Date date = new Date();
+		recruit.set("state", Constants.STATE_INVALID);
+		recruit.set("lastUpdateTime", date);
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		pst.set("state", Constants.STATE_INVALID);
+		pst.set("lastUpdateTime", date);
+		pst.set("handleman", 0);
+		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
+		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
+		
+		RecruitRecord record = new RecruitRecord();
+		record.set("recruit_id", recruit.get("id"));
+		record.set("presentee_id", pst_id);
+		record.set("handleman", recruit.get("handleman"));
+		record.set("state", Constants.STATE_INVALID);
+		record.set("description", Constants.Record_NotComeEagleEye);
+		record.set("createtime", date);	
+		boolean tx = Db.tx(new IAtom() 
+		{			
+			@Override
+			public boolean run() throws SQLException 
+			{				
+				return recruit.update()&&pst.update()&&record.save();
+			}
+		});
+		return tx;
+	}
+
 }

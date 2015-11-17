@@ -39,7 +39,16 @@ public class WeixinApiController extends ApiController{
 		}
 		else
 		{
-			render("/WEB-INF/jsp/main.jsp");
+			//render("/WEB-INF/jsp/main.jsp");
+			List<TableCode> degreeList = TableCode.dao.getList("presentee", "degree");
+			List<TableCode> originList = TableCode.dao.getList("presentee", "origin");
+			setAttr("degreeList", degreeList);
+			setAttr("originList", originList);	
+			//ResponseResult result= new ResponseResult(false, "添加失败", null);
+			
+//			model.addAttribute("educationLevel",educationLevel);
+//			model.addAttribute("schoolLevels",schoolLevel);
+			render("/WEB-INF/jsp/assistantMain.jsp");
 		}
 	
 	}
@@ -58,7 +67,16 @@ public class WeixinApiController extends ApiController{
 	
 	public void toWeixnMain()
 	{
-		render("/WEB-INF/jsp/main.jsp");
+		//render("/WEB-INF/jsp/main.jsp");
+		List<TableCode> degreeList = TableCode.dao.getList("presentee", "degree");
+		List<TableCode> originList = TableCode.dao.getList("presentee", "origin");
+		setAttr("degreeList", degreeList);
+		setAttr("originList", originList);	
+		//ResponseResult result= new ResponseResult(false, "添加失败", null);
+		
+//		model.addAttribute("educationLevel",educationLevel);
+//		model.addAttribute("schoolLevels",schoolLevel);
+		render("/WEB-INF/jsp/assistantMain.jsp");
 	}
 	
 	public void toadd()

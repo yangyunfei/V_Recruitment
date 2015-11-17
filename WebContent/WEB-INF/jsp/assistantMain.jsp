@@ -45,6 +45,11 @@ $(function(){
 		});
 		
 });
+//重新登录换绑定微信号
+function toLogin()
+{
+	window.location.href="${pageContext.request.contextPath}/weixin/api/toLogin";
+}
 </script>
 <style type="text/css">
 	.buttonLeftStyle {
@@ -107,6 +112,7 @@ $(function(){
     </div>
     <!-- head end -->
     <!-- mid start -->
+    <div style="margin-top: 10px;" ><label style="color: white;background-color: green;">&nbsp;姓名:&nbsp;</label><label style="color: white;background-color: green;">${Controller_WeChat_User_Key.name} </label><label style="color: white;background-color: green;float: right;" onclick="toLogin()">&nbsp;换绑定帐号&nbsp;</label></div>
     <div class="mid" >
     	<div >
     		<div>

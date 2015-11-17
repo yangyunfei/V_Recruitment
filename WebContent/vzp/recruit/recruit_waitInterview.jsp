@@ -193,8 +193,8 @@
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="addProperty(\'{0}\');" >完善信息</a>',
-														row.id);
+														'<a href="javascript:void(0);" onclick="addProperty(\'{0}\',\'{1}\');" >完善信息</a>',
+														row.id,row.name);
 											}																					
 
 											return str;
@@ -616,8 +616,9 @@
 						});
 	};
 	
-	function addProperty(id)
+	function addProperty(id,name)
 	{
+		/*
 		parent.$.modalDialog({
 			title : '完善信息',
 			width : 800,
@@ -632,6 +633,14 @@
 				}
 			} ]
 		});
+		*/
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent
+				.addTab({
+					url : '${pageContext.request.contextPath}/jf/recruitController/toaddProperty/' + id,
+					title : '完善信息-' + name,
+					iconCls : 'status_online'
+				});
 	}
 </script>
 </head>

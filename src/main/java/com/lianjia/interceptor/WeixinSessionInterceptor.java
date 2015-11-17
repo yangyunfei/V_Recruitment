@@ -2,18 +2,23 @@ package com.lianjia.interceptor;
 
 import net.sf.json.JSONObject;
 
+import java.util.Map;
+
 import com.gson.oauth.Oauth;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.api.AccessToken;
+import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.SnsAccessTokenApi;
 import com.lianjia.common.Constants;
 import com.lianjia.model.WechatUser;
 import com.lianjia.server.WexinUserServer;
 import com.jfinal.weixin.sdk.jfinal.ApiController;
+import com.jfinal.weixin.sdk.kit.ParaMap;
 
 
 
@@ -23,6 +28,8 @@ public class WeixinSessionInterceptor implements Interceptor
 
 	
 	public static final Oauth oauth = new Oauth();
+	
+	private static String url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code";
 	
 	@Override
 	public void intercept(Invocation inv) 
@@ -37,7 +44,7 @@ public class WeixinSessionInterceptor implements Interceptor
 		try {
 			ApiController apiController = (ApiController)controller;
 			ApiConfigKit.setThreadLocalApiConfig(apiController.getApiConfig());
-			AccessToken accessToken = SnsAccessTokenApi.getAccessToken(code);			
+			AccessToken accessToken = getAccessToken(code);			
 			String openid = (String) JSONObject.fromObject(accessToken.getJson()).get("openid");
 			if(StrKit.isBlank(openid))
 			{
@@ -73,5 +80,24 @@ public class WeixinSessionInterceptor implements Interceptor
 		}
 		
 	}
+	
+	private  synchronized AccessToken getAccessToken(String code)
+    {
+        ApiConfig ac = ApiConfigKit.getApiConfig();
+        AccessToken result = null;
+        for (int i = 0; i < 3; i++)
+        {    
+            String appId = ac.getAppId();
+            String appSecret = ac.getAppSecret();
+            Map<String, String> queryParas = ParaMap.create("appid", appId).put("secret", appSecret).put("code", code).getData();
+            String json = HttpKit.get(url, queryParas);
+            result = new AccessToken(json);
+
+            if (result.isAvailable())
+                break;
+        }
+        return result;
+        
+    }
 
 }

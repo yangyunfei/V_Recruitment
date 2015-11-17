@@ -350,7 +350,7 @@ public class RecruitController extends Controller
 		
 	}
 	
-	public  void  callOnEagleEye()
+	public  void  passEagleEye()
 	{
 		long rt_id = getParaToLong(0);		
 		Recruit recruit =Recruit.dao.findById(rt_id);	
@@ -362,32 +362,71 @@ public class RecruitController extends Controller
 		};
 		if(!recruit.validateState(Constants.STATE_WAIT_SECONDINTERVIEW))
 		{
-			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
+			renderJson(new ResponseResult(false,"该任务不是初面通过状态，请刷新页面！",null));
 			return;
-		};
-		Random random = new Random();
-		int nextInt = random.nextInt(100);
-		boolean result = false;
-		if(0 == nextInt%5)
-		{
-			result = true;
-			recruit.set("state", Constants.STATE_WAIT_TRAIN);
-			recruit.set("lastUpdateTime", new Date());
-			long pst_id = recruit.getLong("presentee_id");
-			Presentee pst = Presentee.dao.findById(pst_id);
-			pst.set("state", Constants.STATE_WAIT_TRAIN);
-			pst.set("lastUpdateTime", new Date());
-			result = recruit.update()&&pst.update();
-			
-			
-		}
+		};	
+		boolean result = RecruitServer.server.PassEagleEye(recruit);
 		if(result)
 		{
 			renderJson(new ResponseResult(true,"成功",null));
 		}
 		else
 		{
-			renderJson(new ResponseResult(false,"还没有查询出来结果！请等一段时间后再试！",null));
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
+	}
+	
+	public  void  notPassEagleEye()
+	{
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);	
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_SECONDINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是初面通过状态，请刷新页面！",null));
+			return;
+		};	
+		boolean result = RecruitServer.server.notPassEagleEye(recruit);
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
+	}
+	
+	public  void  notComeEagleEye()
+	{
+		long rt_id = getParaToLong(0);		
+		Recruit recruit =Recruit.dao.findById(rt_id);	
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);		
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_SECONDINTERVIEW))
+		{
+			renderJson(new ResponseResult(false,"该任务不是初面通过状态，请刷新页面！",null));
+			return;
+		};	
+		boolean result = RecruitServer.server.notComeEagleEye(recruit);
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
 		}
 	   
 	}
@@ -497,7 +536,7 @@ public class RecruitController extends Controller
 		};
 		if(!recruit.validateState(Constants.STATE_WAIT_TRAIN))
 		{
-			renderJson(new ResponseResult(false,"该任务不是待初试状态，请刷新页面！",null));
+			renderJson(new ResponseResult(false,"该任务不是待培训状态，请刷新页面！",null));
 			return;
 		};
 		boolean result = RecruitServer.server.getOutTrain(recruit,cancle);			
@@ -599,6 +638,38 @@ public class RecruitController extends Controller
 			return;
 		};
 		boolean result = RecruitServer.server.entry(recruit);
+
+		if(result)
+		{
+			renderJson(new ResponseResult(true,"成功",null));
+		}
+		else
+		{
+			renderJson(new ResponseResult(false,"失败",null));
+		}
+	   
+	}
+	
+	
+	/**
+	 * 未入职
+	 */
+	public  void  notEntry()
+	{	
+		long rt_id = getParaToLong(0);
+		Recruit recruit =Recruit.dao.findById(rt_id);
+		User user = (User)getAttr(Constants.Controller_SESSION_User_Key);	
+		if(!recruit.validateBelongtoUser(user))
+		{
+			renderJson(new ResponseResult(false,"该人员不属于你,请刷新！",null));
+			return;
+		};
+		if(!recruit.validateState(Constants.STATE_WAIT_ENTRANT))
+		{
+			renderJson(new ResponseResult(false,"该任务不是待入职状态，请刷新页面！",null));
+			return;
+		};
+		boolean result = RecruitServer.server.notEntry(recruit);
 
 		if(result)
 		{

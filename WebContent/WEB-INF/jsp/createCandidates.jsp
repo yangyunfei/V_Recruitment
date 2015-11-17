@@ -124,13 +124,14 @@ $("#applicantFormSub").submit(function() {
 			return false;
 		}
 		
-		if(isblank(schoolName) || schoolName.length > 80 || schoolName.length < 4) {
-			errorshow($("#schoolName"),'输入的学校名称为5-80个字长度长度');
+		if(isblank(schoolName) || schoolName.length > 80 || schoolName.length < 1) {
+			errorshow($("#schoolName"),'输入的学校名称为2-80个字长度长度');
 			$("#schoolName").focus();
 			return false;
 		}
-		if(isblank(address) || address.length > 80 ||address.length < 4) {
-			errorshow($("#address"),'输入的现居地址为5-80个字长度');
+		/*
+		if(isblank(address) || address.length > 80 ||address.length < 1) {
+			errorshow($("#address"),'输入的现居地址为2-80个字长度');
 			$("#address").focus();
 			return false;
 		}
@@ -139,6 +140,7 @@ $("#applicantFormSub").submit(function() {
 			$("#remarks").focus();
 			return false;
 		}
+		*/
 		 return true;
 	}
 	
@@ -281,13 +283,13 @@ $("#applicantFormSub").submit(function() {
                         </div>
                     </li>
                     <li class="orderullih">
-                        <div class="orderullilw"><em class="red">*</em>现居住地:</div>
+                        <div class="orderullilw">现居住地:</div>
                         <div class="orderullirw">
                             <input id="address" name="pst.address" type="text" required="required" class="contarl-input" placeholder="请输入现居住地" value=""/>
                         </div>
                     </li>
                     <li class="orderullih"  style="height: 105px;">
-                        <div class="orderullilw"><em class="red">*</em>备注:</div>
+                        <div class="orderullilw">备注:</div>
                         <div class="orderullih" style="height: 105px;">
                             <textarea rows="4" style="width: 100%;resize:none" required="required" id="remarks" name="pst.remarks" class="contarl-input" placeholder="请输入预可面试时间等" ></textarea>
                         </div>

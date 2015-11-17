@@ -34,6 +34,7 @@ import com.lianjia.model.RecruitRecord;
 import com.lianjia.model.Recruit;
 import com.lianjia.model.Remark;
 import com.lianjia.model.Role;
+import com.lianjia.model.School;
 import com.lianjia.model.TableCode;
 import com.lianjia.model.User;
 import com.lianjia.model.V_Recruit;
@@ -85,6 +86,7 @@ public class V_RecruitmentConfig extends JFinalConfig {
 		arp.addMapping("user", User.class);
 		arp.addMapping("wechatuser", WechatUser.class);
 		arp.addMapping("agent", "pager",Agent.class);
+		arp.addMapping("school",School.class);
 		arp.addMapping("presentee", Presentee.class);
 		arp.addMapping("remark", Remark.class);
 		arp.addMapping("module", Module.class);

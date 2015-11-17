@@ -10,6 +10,7 @@ import java.util.Set;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.lianjia.common.Constants;
 import com.lianjia.common.ResponseResult;
 import com.lianjia.interceptor.AuthenticationInterceptor;
@@ -86,11 +87,23 @@ public class LoginController extends Controller
 				wechatUser.save();
 			}
 			//如果上传登录有openid 则为微信绑定信息或者换绑定
-			if(StrKit.notNull(openid))
+			if(!StrKit.isBlank(openid))
 			{
+				WechatUser wechatUserOpenid = WechatUser.dao.findFirst("SELECT  id,pager,openid FROM wechatuser WHERE openid = ? AND pager <> ?", openid,loginName);
+				//该OpenId之前绑定的其他的pager删除掉
+				if(null != wechatUserOpenid )
+				{
+					wechatUserOpenid.delete();
+				}
+				if(StrKit.notNull(wechatUser.getStr("openid")))
+				{
+					wechatUser.remove("openid");
+				}				
 				wechatUser.set("openid", openid);
 				wechatUser.update();
 			}
+						
+			
 			
 			wechatUser.setAgentInfo();
 			setSessionAttr(Constants.Controller_SESSION_WeChat_User_Key, wechatUser);
