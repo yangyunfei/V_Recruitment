@@ -486,11 +486,13 @@
 
 	function pass(id,idcard)
 	{
+		/*
 		if("" == idcard || "null" == idcard)
 		{
 			alert("请先完善信息！");
 			return;
 		}
+		*/
 		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
 		parent.$.messager
 				.confirm(

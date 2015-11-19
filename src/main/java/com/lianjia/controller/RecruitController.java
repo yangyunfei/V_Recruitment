@@ -216,6 +216,13 @@ public class RecruitController extends Controller
 			renderJson(new ResponseResult(false,"该任务不是待面试状态，请刷新页面！",null));
 			return;
 		};
+		long pst_id = recruit.getLong("presentee_id");
+		Presentee pst = Presentee.dao.findById(pst_id);
+		if(StrKit.isBlank(pst.getStr("idcard")))
+		{
+			renderJson(new ResponseResult(false,"请先完善信息！",null));
+			return;
+		}
 		boolean result = RecruitServer.server.pass(recruit);			
 		if(result)
 		{
