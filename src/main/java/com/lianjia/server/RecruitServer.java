@@ -18,18 +18,18 @@ public class RecruitServer
 	
 	private static Logger logger = Logger.getLogger(RecruitServer.class);
 
-	public boolean joinInterview(Recruit recruit, Date interviewtime) 
+	public boolean joinInterview(final Recruit recruit, Date interviewtime) 
 	{
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_WAIT_FIRSTINTERVIEW);
 		recruit.set("interviewtime", interviewtime);
 		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_FIRSTINTERVIEW);
 		pst.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst.get("id"));
 		record.set("handleman", recruit.get("handleman"));
@@ -50,7 +50,7 @@ public class RecruitServer
 		
 	}
 
-	public boolean breakOff(Recruit recruit, int cancle) 
+	public boolean breakOff(final Recruit recruit, int cancle) 
 	{
 		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
 		if (null == cancleEnum || (!Constants.Cancle_type_notInterview.equals(cancleEnum.getGroup())))
@@ -62,13 +62,13 @@ public class RecruitServer
 		recruit.set("cancle", cancle);
 		recruit.set("lastUpdateTime", new Date());
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("cancle", cancle);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
 		pst.set("weight", cancleEnum.getWeight());
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
@@ -89,13 +89,13 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean EditInterview(Recruit recruit, Date interviewtime) 
+	public boolean EditInterview(final Recruit recruit, Date interviewtime) 
 	{
 		Date date = new Date();
 		recruit.set("interviewtime", interviewtime);
 		recruit.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", recruit.get("presentee_id"));
 		record.set("handleman", recruit.get("handleman"));
@@ -113,7 +113,7 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean getOutTrain(Recruit recruit, Integer cancle) {
+	public boolean getOutTrain(final Recruit recruit, Integer cancle) {
 		CancleEnum cancleEnum = CancleEnum.getByCode(cancle);
 		if(null == cancleEnum || (!Constants.Cancle_type_noPassTrain.equals(cancleEnum.getGroup())))
 		{
@@ -124,13 +124,13 @@ public class RecruitServer
 		recruit.set("cancle", cancle);
 		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("cancle", cancle);		
 		pst.set("handleman", 0);
 		pst.set("weight", cancleEnum.getWeight());
 		pst.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", recruit.get("presentee_id"));
 		record.set("handleman", recruit.get("handleman"));
@@ -157,16 +157,16 @@ public class RecruitServer
 	 * @param recruit
 	 * @return
 	 */
-	public boolean pass(Recruit recruit) {
+	public boolean pass(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_WAIT_SECONDINTERVIEW);
 		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_SECONDINTERVIEW);
 		pst.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
@@ -190,20 +190,20 @@ public class RecruitServer
 	 * @param recruit
 	 * @return
 	 */
-	public boolean nopass(Recruit recruit) {
+	public boolean nopass(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
 		recruit.set("cancle", CancleEnum.NotPassInterview.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
 		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
 		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("cancle", CancleEnum.NotPassInterview.getCancleCode());
@@ -223,20 +223,20 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean noComeInterview(Recruit recruit) {
+	public boolean noComeInterview(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
 		recruit.set("cancle", CancleEnum.NoComeInterview.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
 		pst.set("weight", CancleEnum.NoComeInterview.getWeight());
 		pst.set("cancle", CancleEnum.NoComeInterview.getCancleCode());	
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("cancle", CancleEnum.NoComeInterview.getCancleCode());	
@@ -260,14 +260,14 @@ public class RecruitServer
 	 * @param recruit
 	 * @return
 	 */
-	public boolean notTrain(Recruit recruit) 
+	public boolean notTrain(final Recruit recruit) 
 	{
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", new Date());
 		recruit.set("cancle", CancleEnum.NotTrain.getCancleCode());
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", new Date());
 		pst.set("handleman", 0);
@@ -294,13 +294,13 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean passTrain(Recruit recruit)
+	public boolean passTrain(final Recruit recruit)
 	{
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_WAIT_ENTRANT);
 		recruit.set("lastUpdateTime", new Date());
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_ENTRANT);
 		pst.set("lastUpdateTime", date);
 
@@ -323,16 +323,16 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean entry(Recruit recruit) {
+	public boolean entry(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_HAS_ENTRANT);
 		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_HAS_ENTRANT);
 		pst.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
@@ -350,19 +350,20 @@ public class RecruitServer
 		return tx;
 	}
 	
-	public boolean notEntry(Recruit recruit) {
+	public boolean notEntry(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
 		recruit.set("cancle", CancleEnum.NotEntry.getCancleCode());
 		
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
+		pst.set("handleman", 0);
 		pst.set("cancle", CancleEnum.NotEntry.getCancleCode());
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("cancle", CancleEnum.NotEntry.getCancleCode());
@@ -381,16 +382,16 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean PassEagleEye(Recruit recruit) {
+	public boolean PassEagleEye(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_WAIT_TRAIN);
 		recruit.set("lastUpdateTime", date);
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_WAIT_TRAIN);
 		pst.set("lastUpdateTime", date);
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
@@ -408,23 +409,25 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean notPassEagleEye(Recruit recruit) {
+	public boolean notPassEagleEye(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
+		recruit.set("cancle", CancleEnum.notPassEagleEye.getCancleCode());	
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
-		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
-		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
+		pst.set("weight", CancleEnum.notPassEagleEye.getWeight());
+		pst.set("cancle", CancleEnum.notPassEagleEye.getCancleCode());	
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
 		record.set("state", Constants.STATE_INVALID);
+		record.set("cancle", CancleEnum.notPassEagleEye.getCancleCode());	
 		record.set("description", Constants.Record_NotPassEagleEye);
 		record.set("createtime", date);	
 		boolean tx = Db.tx(new IAtom() 
@@ -438,23 +441,25 @@ public class RecruitServer
 		return tx;
 	}
 
-	public boolean notComeEagleEye(Recruit recruit) {
+	public boolean notComeEagleEye(final Recruit recruit) {
 		Date date = new Date();
 		recruit.set("state", Constants.STATE_INVALID);
 		recruit.set("lastUpdateTime", date);
+		recruit.set("cancle", CancleEnum.notComeEagleEye.getCancleCode());	
 		long pst_id = recruit.getLong("presentee_id");
-		Presentee pst = Presentee.dao.findById(pst_id);
+		final Presentee pst = Presentee.dao.findById(pst_id);
 		pst.set("state", Constants.STATE_INVALID);
 		pst.set("lastUpdateTime", date);
 		pst.set("handleman", 0);
-		pst.set("weight", CancleEnum.NotPassInterview.getWeight());
-		pst.set("cancle", CancleEnum.NotPassInterview.getCancleCode());	
+		pst.set("weight", CancleEnum.notComeEagleEye.getWeight());
+		pst.set("cancle", CancleEnum.notComeEagleEye.getCancleCode());	
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("recruit_id", recruit.get("id"));
 		record.set("presentee_id", pst_id);
 		record.set("handleman", recruit.get("handleman"));
 		record.set("state", Constants.STATE_INVALID);
+		record.set("cancle", CancleEnum.notComeEagleEye.getCancleCode());	
 		record.set("description", Constants.Record_NotComeEagleEye);
 		record.set("createtime", date);	
 		boolean tx = Db.tx(new IAtom() 

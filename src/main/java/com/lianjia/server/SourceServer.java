@@ -18,19 +18,19 @@ public class SourceServer
 	
 	private static Logger logger = Logger.getLogger(SourceServer.class);
 
-	public boolean accept(Presentee pst, User user) {
+	public boolean accept(final Presentee pst, User user) {
 		Date date = new Date();
 		pst.set("handleman", user.get("id"));
 		pst.set("lastUpdateTime", date);
 		pst.set("state", Constants.STATE_SUSPENDING);
-		Recruit recruit = new Recruit();
+		final Recruit recruit = new Recruit();
 		recruit.set("handleman", user.getLong("id"));
 		recruit.set("presentee_id", pst.get("id"));
 		recruit.set("state", Constants.STATE_SUSPENDING);
 		recruit.set("createtime",date);	
 		recruit.set("lastUpdateTime",date);	
 		
-		RecruitRecord record = new RecruitRecord();
+		final RecruitRecord record = new RecruitRecord();
 		record.set("presentee_id", pst.get("id"));
 		record.set("handleman", user.get("id"));
 		record.set("state", Constants.STATE_SUSPENDING);

@@ -204,12 +204,12 @@
 											{											
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="noEntrant(\'{0}\');" >未入职</a>',
+														'<a href="javascript:void(0);" onclick="entry(\'{0}\');" >已入职</a>',
 														row.id);	
 												str += "&nbsp;&nbsp;";
 												str += $
 												.formatString(
-														'<a href="javascript:void(0);" onclick="getOutTrain(\'{0}\');" >未入职</a>',
+														'<a href="javascript:void(0);" onclick="notEntry(\'{0}\');" >未入职</a>',
 														row.id);			
 											}										
 											return str;

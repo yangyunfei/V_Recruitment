@@ -23,22 +23,26 @@ public enum CancleEnum
 	BeenCutOff("被切户了",Constants.Cancle_type_notInterview,6,1),
 	NotConsider("不考虑了",Constants.Cancle_type_notInterview,7,1),
 	
-	NotPassInterview("初试未通过",Constants.Cancle_type_noPassInterview,8,1),
+	NotPassInterview("初试未通过",Constants.Cancle_type_noPassInterview,10,1),
 	
-	NoComeInterview("初试未参加",Constants.Cancle_type_NoComeInterview,9,0),
+	NoComeInterview("初试未参加",Constants.Cancle_type_NoComeInterview,11,0),
 	
-	NotTrain("未参加培训",Constants.Cancle_type_notTrain,10,0),
+	notPassEagleEye("鹰眼复试未通过",Constants.Cancle_type_NotPassEagleEye,20,1),
 	
-	NoPassTrain_GuaKe("考试挂科淘汰",Constants.Cancle_type_noPassTrain,11,1),
-	NoPassTrain_ZuoBi("考试作弊淘汰",Constants.Cancle_type_noPassTrain,12,1),
-	NoPassTrain_BangZhuZuoBi("帮助作弊淘汰",Constants.Cancle_type_noPassTrain,13,1),
-	NoPassTrain_DingZhuangJiaoGuan("顶撞教官或班主任",Constants.Cancle_type_noPassTrain,14,1),
-	NoPassTrain_ZhuDongTuiChu("主动退出",Constants.Cancle_type_noPassTrain,15,1),
-	NoPassTrain_XiYan("在非定点区域吸烟",Constants.Cancle_type_noPassTrain,16,1),
-	NoPassTrain_Weiji("违纪淘汰",Constants.Cancle_type_noPassTrain,17,1),
-	NoPassTrain_Other("其他",Constants.Cancle_type_noPassTrain,18,1),
+	notComeEagleEye("鹰眼复试未参加",Constants.Cancle_type_NotComeEagleEye,21,0),
 	
-	NotEntry("没有入职",Constants.Cancle_type_noEntry,19,0);
+	NotTrain("未参加培训",Constants.Cancle_type_notTrain,30,0),
+	
+	NoPassTrain_GuaKe("考试挂科淘汰",Constants.Cancle_type_noPassTrain,31,1),
+	NoPassTrain_ZuoBi("考试作弊淘汰",Constants.Cancle_type_noPassTrain,32,1),
+	NoPassTrain_BangZhuZuoBi("帮助作弊淘汰",Constants.Cancle_type_noPassTrain,33,1),
+	NoPassTrain_DingZhuangJiaoGuan("顶撞教官或班主任",Constants.Cancle_type_noPassTrain,34,1),
+	NoPassTrain_ZhuDongTuiChu("主动退出",Constants.Cancle_type_noPassTrain,35,1),
+	NoPassTrain_XiYan("在非定点区域吸烟",Constants.Cancle_type_noPassTrain,36,1),
+	NoPassTrain_Weiji("违纪淘汰",Constants.Cancle_type_noPassTrain,37,1),
+	NoPassTrain_Other("其他(培训淘汰原因)",Constants.Cancle_type_noPassTrain,38,1),
+	
+	NotEntry("没有入职",Constants.Cancle_type_noEntry,40,0);
 	
 	//淘汰原因
 	private String name;

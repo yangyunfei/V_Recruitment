@@ -86,9 +86,9 @@ public class Constants {
 	
 	public static final String Record_Pass = "初试通过";
 	
-	public static final String Record_PassEagleEye = "鹰眼系统通过";
+	public static final String Record_PassEagleEye = "鹰眼系统复试通过";
 	
-	public static final String Record_NotPassEagleEye = "鹰眼系统没有通过";
+	public static final String Record_NotPassEagleEye = "鹰眼系统复试没有通过";
 	
 	public static final String Record_NotComeEagleEye = "鹰眼系统复试没有来";
 
@@ -108,6 +108,8 @@ public class Constants {
 	public static final String Cancle_type_notInterview = "notInterview";
 	public static final String Cancle_type_noPassInterview = "noPassInterview";
 	public static final String Cancle_type_NoComeInterview = "NoComeInterview";
+	public static final String Cancle_type_NotPassEagleEye = "notPassEagleEye";
+	public static final String Cancle_type_NotComeEagleEye = "notComeEagleEye";
 	public static final String Cancle_type_notTrain = "notTrain";
 	public static final String Cancle_type_noPassTrain = "noPassTrain";
 	public static final String Cancle_type_noEntry = "noEntry";
