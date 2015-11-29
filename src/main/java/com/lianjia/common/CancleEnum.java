@@ -22,6 +22,8 @@ public enum CancleEnum
 	NotAnswerThePhone("拒接电话",Constants.Cancle_type_notInterview,5,1),
 	BeenCutOff("被切户了",Constants.Cancle_type_notInterview,6,1),
 	NotConsider("不考虑了",Constants.Cancle_type_notInterview,7,1),
+	NotMatchDegree("学历不符合",Constants.Cancle_type_notInterview,8,1),
+	NotFindSchool("学校查询不到",Constants.Cancle_type_notInterview,9,1),
 	
 	NotPassInterview("初试未通过",Constants.Cancle_type_noPassInterview,10,1),
 	

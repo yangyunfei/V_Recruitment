@@ -2,6 +2,7 @@ package com.lianjia.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
@@ -14,6 +15,7 @@ import com.lianjia.interceptor.AuthenticationInterceptor;
 import com.lianjia.model.Role;
 import com.lianjia.model.User;
 import com.lianjia.pageModel.DataGrid;
+import com.lianjia.server.UserServer;
 import com.lianjia.tools.ToolDateTime;
 
 @Before(AuthenticationInterceptor.class)
@@ -41,6 +43,25 @@ public class UserController extends Controller
 		dg.setTotal(pageList.getTotalRow());
 		renderJson(dg);	
 	}
+	
+	/**   
+	 * 用户分析
+	 * @author yangyunfei
+	 * @created 2015年11月29日 下午9:32:07
+	 */
+	public void analysis()
+	{
+		String id = getPara(0);
+		ResponseResult  j=new ResponseResult(); 	
+		User user = User.dao.findById(id);
+		Map<String, Object> analysisInfo = UserServer.server.getAnalysisInfo(user);
+		setAttr("user", user);
+		setAttrs(analysisInfo);
+		render("/vzp/analysis/userRecruit.jsp");
+		
+	}
+	
+	
 	/**
 	 * 修改密码页面跳转
 	 */
@@ -54,6 +75,39 @@ public class UserController extends Controller
 		setAttr("user", user);
 		render("/vzp/authority/userEditPwd.jsp");
 	}
+	
+	
+	
+	/**
+	 * 修改收藏上限页面跳转
+	 */
+	@Clear
+	public void editAcceptCountPage()
+	{
+		//this.keepPara("id");
+		String id = getPara("id");
+		System.out.println(id);
+		User user = (User) User.dao.findById(id);
+		setAttr("user", user);
+		render("/vzp/authority/userEditCount.jsp");
+	}
+	
+	/**
+	 * 修改收藏上限
+	 */
+	@Clear
+	public void editAcceptCount()
+	{
+		String id = getPara("id");
+		String count = getPara("count");
+		ResponseResult  j=new ResponseResult(); 	
+		boolean flag = User.dao.findById(id).set("handleMaxNum", count).update();
+		//render("/admin/userEditPwd.jsp");
+		j.setSuccess(flag); 
+		renderJson(j);	
+	}
+	
+	
     /**
      * 修改密码操作
      */

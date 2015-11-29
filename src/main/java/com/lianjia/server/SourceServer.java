@@ -21,6 +21,7 @@ public class SourceServer
 	public boolean accept(final Presentee pst, User user) {
 		Date date = new Date();
 		pst.set("handleman", user.get("id"));
+		pst.set("lasthandleman", user.get("id"));
 		pst.set("lastUpdateTime", date);
 		pst.set("state", Constants.STATE_SUSPENDING);
 		final Recruit recruit = new Recruit();

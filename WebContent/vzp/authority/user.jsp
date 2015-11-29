@@ -6,9 +6,9 @@
 <head>
 <title>用户管理</title>
 <jsp:include page="../../inc.jsp"></jsp:include>
-<c:if test="${fn:contains(modules, '/jf/userController/editPage')}">
+<c:if test="${fn:contains(modules, '/jf/userController/editAcceptCountPage')}">
 	<script type="text/javascript">
-		$.canEdit = true;
+		$.canEditCount = true;
 	</script>
 </c:if>
 <c:if test="${fn:contains(modules, '/jf/userController/add')}">
@@ -56,7 +56,15 @@
 				field : 'name',
 				title : '名称',
 				width : 80,
-				sortable : true
+				sortable : true,
+				formatter : function(value, row, index) {
+					var str = $
+							.formatString(
+									'<a href="javascript:void(0);" onclick="analysis({0},\'{1}\');">{2} <\/a>',
+									row.id, value,
+									value);
+					return str;
+				}
 			} ] ],
 			columns : [ [ {
 				field : 'login_name',
@@ -65,14 +73,14 @@
 				sortable : true
 			
 			}, {
-				field : 'createtime',
+				field : 'createTime',
 				title : '创建时间',
 				width : 150,
 				sortable : true
 			}, {
-				field : 'pager',
-				title : '系统号',
-				width : 150,
+				field : 'handleMaxNum',
+				title : '收藏上限',
+				width : 80,
 				sortable : true
 			}, {
 				field : 'phone',
@@ -105,9 +113,9 @@
 				width : 100,
 				formatter : function(value, row, index) {
 					var str = '';
-					if ($.canEdit) {
+					if ($.canEditCount) {
 
-						str += $.formatString('<a href="javascript:void(0);" title="编辑" onclick="editFun(\'{0}\');">编辑 <\/a>', row.id);
+						str += $.formatString('<a href="javascript:void(0);" title="修改收藏上限" onclick="editFun(\'{0}\');">修改收藏上限 <\/a>', row.id);
 					}
 					str += '&nbsp;';
 					/* if ($.canDelete) */ {
@@ -254,7 +262,7 @@
 			title : '编辑用户',
 			width : 500,
 			height : 300,
-			href : '${pageContext.request.contextPath}/userController/editPage?id=' + id,
+			href : '${pageContext.request.contextPath}/jf/userController/editAcceptCountPage?id=' + id,
 			buttons : [ {
 				text : '编辑',
 				handler : function() {
@@ -328,6 +336,17 @@
 				}
 			} ]
 		});
+	}
+	
+	function analysis(id ,name)
+	{
+		dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+		parent
+				.addTab({
+					url : '${pageContext.request.contextPath}/jf/userController/analysis/' + id,
+					title : '统计信息-' + name,
+					iconCls : 'status_online'
+				});
 	}
 
 	function searchFun() {

@@ -161,6 +161,18 @@
 										sortable : true
 									},
 									{
+										field : 'lasthandlemanname',
+										title : '最后处理人',
+										width : 150,
+										sortable : true
+									},
+									{
+										field : 'lastUpdateTime',
+										title : '最后更新时间',
+										width : 150,
+										sortable : true
+									},
+									{
 										field : 'action',
 										title : '操作',
 										width : 100,

@@ -35,7 +35,7 @@ public class SourceController  extends Controller
 	}
 
 	/**
-	 * 增加页面跳转
+	 * 收藏页面跳转
 	 */
 	public void accept()
 	{
