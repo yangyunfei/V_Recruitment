@@ -93,7 +93,7 @@ $("#applicantFormSub").submit(function() {
 		var address = $("#address").val().trim(); //地址
 		var schoolName = $("#schoolName").val().trim();//学校名称
 		var degree = $("#degree").val();//学历
-		var schoolLevel = $("#origin").val();//学校等级
+		var origin = $("#origin").val();//学校等级
 		var remarks = $("#remarks").val().trim(); //预约数据
 		var regPhone = /^0?1[3|4|5|6|7|8|9][0-9]\d{8}$/;
 		if(username == '' || username == 'undefind') {
