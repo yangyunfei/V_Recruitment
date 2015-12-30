@@ -66,6 +66,10 @@
 					<td class="td1">录入时间</td>
 					<td>${pt.createtime}</td>
 				</tr>
+				<tr>
+					<td class="td1">备注</td>
+					<td>${pt.remarks}</td>
+				</tr>
 			</table>
 			
 	</div>

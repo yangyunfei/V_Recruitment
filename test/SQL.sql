@@ -39,3 +39,37 @@ SELECT
   `description` AS 操作类型,
   `createtime` AS 创建时间
 FROM `v_recruitment`.`recruit_record` a  WHERE a.createtime > '2015-12-01' AND a.createtime < '2015-12-07'
+
+
+
+/******招聘任务详细导出表**********/
+SELECT
+  `r`.`presentee_id`   AS `应聘人员标号`,
+  `p`.`name`           AS `应聘人员姓名`,
+  `p`.`phone`          AS `应聘人员联系方式`,
+  `d`.`name`           AS `学历`,
+  `p`.`school_name`    AS `学校名称`,
+  `p`.`school_level`   AS `学校级别`,
+  `a`.`name`           AS `推荐人姓名`,
+  `p`.`recordman`      AS `推荐人系统号`,
+  `a`.`mobile`         AS `推荐人手机号码`,
+  `a`.`department`     AS `运营管理大区`,
+  `p`.`createtime`     AS `推荐时间`,
+  `u`.`name`           AS `处理人`,
+  `s`.`name`           AS `招聘任务状态`,
+  `c`.`name`           AS `淘汰原因`,
+  `r`.`interviewtime`  AS `面试时间`,
+  `r`.`createtime`     AS `创建时间`,
+  `r`.`lastUpdateTime` AS `最后操作时间`
+FROM `recruit` `r`
+       LEFT JOIN `presentee` `p` ON r.`presentee_id` = p.`id`
+       LEFT JOIN `agent` `a`
+         ON `p`.`recordman` = `a`.`pager`
+      LEFT JOIN `user` `u`
+        ON `u`.`id` = `r`.`handleman`
+     LEFT JOIN `v_degree` `d`
+       ON `p`.`degree` = `d`.`code`
+    LEFT JOIN `v_state` `s`
+      ON `r`.`state` = `s`.`code`
+   LEFT JOIN `v_cancle` `c`
+     ON `r`.`cancle` = `c`.`code`
